@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { User } from 'src/app/types/user.interface';
 
@@ -29,8 +35,9 @@ import { MatIconModule } from '@angular/material/icon';
       <mat-icon>expand_more</mat-icon>
     </div>
     <mat-menu [class]="'profile-menu-container'" #menu="matMenu">
-      <button mat-menu-item>Configurações</button>
-      <button mat-menu-item>Sair</button>
+      <button (click)="onProfileClick()" mat-menu-item>Perfil</button>
+      <button (click)="onSettingsClick()" mat-menu-item>Configurações</button>
+      <button (click)="onLogoutClick()" mat-menu-item>Sair</button>
     </mat-menu>
   `,
   styles: [
@@ -62,8 +69,22 @@ import { MatIconModule } from '@angular/material/icon';
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileOptionsComponent {
-  @Input() user: User | null = null;
+  @Input() user?: User | null = null;
+  @Output() logout = new EventEmitter<void>();
+  @Output() settings = new EventEmitter<void>();
+  @Output() profile = new EventEmitter<void>();
+
+  onSettingsClick(): void {
+    this.settings.emit();
+  }
+
+  onLogoutClick(): void {
+    this.logout.emit();
+  }
+
+  onProfileClick(): void {
+    this.profile.emit();
+  }
 }

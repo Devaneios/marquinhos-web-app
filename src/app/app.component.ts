@@ -4,6 +4,8 @@ import { Router, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { User } from './types/user.interface';
 import { ProfileOptionsComponent } from './components/profile-options/profile-options.component';
+import { AuthService } from './core/auth/auth.service';
+import { DiscordService } from './core/discord/discord.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,12 @@ import { ProfileOptionsComponent } from './components/profile-options/profile-op
   template: `
     <header>
       <img src="assets/logo.jpg" alt="logo" class="logo" />
-      <app-profile-options [user]="user"></app-profile-options>
+      <app-profile-options
+        (logout)="logout()"
+        (settings)="openSettings()"
+        (profile)="openProfile()"
+        [user]="discordService.userData"
+      ></app-profile-options>
     </header>
     <router-outlet></router-outlet>
   `,
@@ -50,13 +57,22 @@ import { ProfileOptionsComponent } from './components/profile-options/profile-op
     `,
   ],
 })
-export class AppComponent implements OnInit {
-  user: User | null = null;
+export class AppComponent {
+  public discordService = inject(DiscordService);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
-  ngOnInit(): void {
-    this.router.events.forEach(() => {
-      this.user = JSON.parse(localStorage.getItem('user')!) || null;
-    });
+  logout(): void {
+    this.authService.logout();
+    this.discordService.logout();
+    this.router.navigate(['/home']);
+  }
+
+  openSettings(): void {
+    this.router.navigate(['/settings']);
+  }
+
+  openProfile(): void {
+    this.router.navigate(['/profile']);
   }
 }

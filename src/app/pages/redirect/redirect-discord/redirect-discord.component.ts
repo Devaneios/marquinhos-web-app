@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { DiscordService } from 'src/app/core/discord/discord.service';
 
 @Component({
   standalone: true,
@@ -11,6 +12,8 @@ import { AuthService } from 'src/app/core/auth/auth.service';
   styles: [],
 })
 export class LoginDiscordComponent implements OnInit {
+  private discordService = inject(DiscordService);
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,7 +33,9 @@ export class LoginDiscordComponent implements OnInit {
         expires_in ?? ''
       );
 
-      this.router.navigate(['/profile']);
+      await this.discordService.loadUserData();
+
+      await this.router.navigate(['/profile']);
     });
   }
 }

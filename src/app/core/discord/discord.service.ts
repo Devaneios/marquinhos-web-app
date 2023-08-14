@@ -42,4 +42,17 @@ export class DiscordService {
 
     return response;
   }
+
+  public async loadUserData() {
+    const user = await this.getDiscordUser();
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+      this.userData = user;
+    }
+  }
+
+  public async logout() {
+    this.userData = undefined;
+    localStorage.removeItem('user');
+  }
 }

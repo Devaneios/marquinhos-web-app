@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginDiscordComponent } from './pages/redirect/redirect-discord/redirect-discord.component';
 import { authGuard } from './core/auth/auth.guard';
 import { LoginLastFmComponent } from './pages/redirect/redirect-lastfm/redirect-lastfm.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,10 @@ export const routes: Routes = [
   {
     path: 'redirect-lastfm',
     component: LoginLastFmComponent,
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
   },
   {
     path: '',

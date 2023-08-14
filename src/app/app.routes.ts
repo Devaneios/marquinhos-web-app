@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
-import { LoginDiscordComponent } from './pages/login/login-discord/login-discord.component';
+import { LoginDiscordComponent } from './pages/redirect/redirect-discord/redirect-discord.component';
 import { authGuard } from './core/auth/auth.guard';
-import { LoginLastFmComponent } from './pages/login/login-last-fm/login-last-fm.component';
+import { LoginLastFmComponent } from './pages/redirect/redirect-lastfm/redirect-lastfm.component';
 
 export const routes: Routes = [
   {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginLastFmComponent } from './login-last-fm.component';
+import { LoginLastFmComponent } from './redirect-lastfm.component';
 
 describe('LoginLastFmComponent', () => {
   let component: LoginLastFmComponent;
@@ -8,7 +8,7 @@ describe('LoginLastFmComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LoginLastFmComponent]
+      imports: [LoginLastFmComponent],
     });
     fixture = TestBed.createComponent(LoginLastFmComponent);
     component = fixture.componentInstance;

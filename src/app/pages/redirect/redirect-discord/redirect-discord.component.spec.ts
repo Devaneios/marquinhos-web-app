@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginDiscordComponent } from './login-discord.component';
+import { LoginDiscordComponent } from './redirect-discord.component';
 
 describe('LoginComponent', () => {
   let component: LoginDiscordComponent;

@@ -25,8 +25,7 @@ export class AuthService {
   }
 
   async goToLoginURL() {
-    window.location.href =
-      'https://discord.com/oauth2/authorize?response_type=token&client_id=695137715913621534&scope=identify';
+    window.location.href = `https://discord.com/oauth2/authorize?response_type=token&client_id=695137715913621534&scope=identify&redirect_uri=${window.location.origin}/redirect-discord&prompt=none`;
   }
 
   async saveDiscordUserToken(
@@ -44,8 +43,7 @@ export class AuthService {
     localStorage.setItem('discord_user_auth', JSON.stringify(user));
   }
 
-  SignOut() {
-    localStorage.removeItem('user');
+  logout() {
     localStorage.removeItem('discord_user_auth');
     this.router.navigate(['home']);
   }

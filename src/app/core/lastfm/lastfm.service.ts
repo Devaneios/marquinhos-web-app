@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { DiscordService } from '../discord/discord.service';
 import { firstValueFrom } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +22,7 @@ export class LastfmService {
     if (!token || !user) return;
 
     const response = await firstValueFrom(
-      this.httpClient.post('http://localhost:3000/user-auth', {
+      this.httpClient.post(`${environment.apiUrl}/user-auth`, {
         discordId: user.id,
         discordToken: userAuth.token,
         discordTokenExpiresAt: userAuth.expires_at.toString(),
@@ -40,7 +40,7 @@ export class LastfmService {
     if (!user || !userAuth) return;
 
     const response = await firstValueFrom(
-      this.httpClient.post(`http://localhost:3000/user-auth/${user.id}`, {
+      this.httpClient.post(`${environment.apiUrl}/user-auth/${user.id}`, {
         discordToken: userAuth.token,
       }),
       { defaultValue: null }

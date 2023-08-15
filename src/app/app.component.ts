@@ -19,7 +19,10 @@ import { DiscordService } from './core/discord/discord.service';
   providers: [],
   template: `
     <header>
-      <img src="assets/logo.jpg" alt="logo" class="logo" />
+      <div class="logo" (click)="goToHome()">
+        <img src="assets/logo.jpg" alt="logo" class="logo-image" />
+        <span class="logo-text">MarquinhosBOT</span>
+      </div>
       <app-profile-options
         (logout)="logout()"
         (settings)="openSettings()"
@@ -48,9 +51,20 @@ import { DiscordService } from './core/discord/discord.service';
           box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 
           .logo {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+
+            &-image {
+              width: 3rem;
+              height: 3rem;
+              border-radius: 50%;
+            }
+            &-text {
+              font-weight: 600;
+              font-size: 1.2rem;
+            }
           }
         }
       }
@@ -65,7 +79,7 @@ export class AppComponent {
   logout(): void {
     this.authService.logout();
     this.discordService.logout();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
   }
 
   openSettings(): void {
@@ -74,5 +88,9 @@ export class AppComponent {
 
   openProfile(): void {
     this.router.navigate(['/profile']);
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/home']);
   }
 }

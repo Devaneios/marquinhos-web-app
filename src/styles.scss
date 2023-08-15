@@ -22,6 +22,8 @@ $marquinhos-web-accent: mat.define-palette(
 // The warn palette is optional (defaults to red).
 $marquinhos-web-warn: mat.define-palette(mat.$red-palette);
 
+$my-typography: mat.define-typography-config();
+
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $marquinhos-web-theme: mat.define-dark-theme(
@@ -31,6 +33,7 @@ $marquinhos-web-theme: mat.define-dark-theme(
       accent: $marquinhos-web-accent,
       warn: $marquinhos-web-warn,
     ),
+    typography: $my-typography,
   )
 );
 

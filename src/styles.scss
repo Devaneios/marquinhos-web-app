@@ -22,7 +22,9 @@ $marquinhos-web-accent: mat.define-palette(
 // The warn palette is optional (defaults to red).
 $marquinhos-web-warn: mat.define-palette(mat.$red-palette);
 
-$my-typography: mat.define-typography-config();
+$my-typography: mat.define-typography-config(
+  $font-family: "Nunito",
+);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -173,9 +175,13 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 .profile-menu-container {
   margin-top: 1rem;
+}
+
+* {
+  box-sizing: border-box;
 }

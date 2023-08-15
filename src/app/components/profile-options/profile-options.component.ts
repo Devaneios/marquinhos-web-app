@@ -10,13 +10,14 @@ import { User } from 'src/app/types/user.interface';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-profile-options',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatIconModule],
+  imports: [CommonModule, MatMenuModule, MatIconModule, MatButtonModule],
   template: `
-    <div *ngIf="user" [matMenuTriggerFor]="menu" class="menu">
+    <div *ngIf="user; else login" [matMenuTriggerFor]="menu" class="menu">
       <img
         *ngIf="user?.avatar"
         [src]="
@@ -39,6 +40,12 @@ import { MatIconModule } from '@angular/material/icon';
       <button (click)="onSettingsClick()" mat-menu-item>Configurações</button>
       <button (click)="onLogoutClick()" mat-menu-item>Sair</button>
     </mat-menu>
+
+    <ng-template #login>
+      <button mat-button (click)="onLoginClick()" color="secondary">
+        Entrar
+      </button>
+    </ng-template>
   `,
   styles: [
     `
@@ -75,6 +82,7 @@ export class ProfileOptionsComponent {
   @Output() logout = new EventEmitter<void>();
   @Output() settings = new EventEmitter<void>();
   @Output() profile = new EventEmitter<void>();
+  @Output() login = new EventEmitter<void>();
 
   onSettingsClick(): void {
     this.settings.emit();
@@ -86,5 +94,9 @@ export class ProfileOptionsComponent {
 
   onProfileClick(): void {
     this.profile.emit();
+  }
+
+  onLoginClick(): void {
+    this.login.emit();
   }
 }

@@ -24,9 +24,11 @@ import { DiscordService } from './core/discord/discord.service';
         <span class="logo-text">MarquinhosBOT</span>
       </div>
       <app-profile-options
+        *ngIf="router.url !== '/login'"
         (logout)="logout()"
         (settings)="openSettings()"
         (profile)="openProfile()"
+        (login)="goToLogin()"
         [user]="discordService.userData"
       ></app-profile-options>
     </header>
@@ -46,7 +48,8 @@ import { DiscordService } from './core/discord/discord.service';
           align-items: center;
           justify-content: space-between;
           color: #7289da;
-          padding: 1rem 1.5rem;
+          padding: 1rem 15rem;
+
           background-color: #2f3136;
           box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 
@@ -68,12 +71,20 @@ import { DiscordService } from './core/discord/discord.service';
           }
         }
       }
+
+      @media (max-width: 768px) {
+        :host {
+          header {
+            padding: 1rem 0.5rem;
+          }
+        }
+      }
     `,
   ],
 })
 export class AppComponent {
   public discordService = inject(DiscordService);
-  private router = inject(Router);
+  public router = inject(Router);
   private authService = inject(AuthService);
 
   logout(): void {
@@ -92,5 +103,9 @@ export class AppComponent {
 
   goToHome(): void {
     this.router.navigate(['/home']);
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 }

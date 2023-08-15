@@ -5,11 +5,16 @@ import { LoginDiscordComponent } from './pages/redirect/redirect-discord/redirec
 import { authGuard } from './core/auth/auth.guard';
 import { LoginLastFmComponent } from './pages/redirect/redirect-lastfm/redirect-lastfm.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'profile',

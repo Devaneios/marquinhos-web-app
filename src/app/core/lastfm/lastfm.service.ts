@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { DiscordService } from '../discord/discord.service';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserStatus } from 'src/app/types/user-status.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -34,10 +35,10 @@ export class LastfmService {
     return response;
   }
 
-  async getUserRegisteredStatus() {
+  async getUserRegisteredStatus(): Promise<UserStatus | null> {
     const user = this.discordService.userData;
     const userAuth = JSON.parse(localStorage.getItem('discord_user_auth')!);
-    if (!user || !userAuth) return;
+    if (!user || !userAuth) return null;
 
     const response = await firstValueFrom(
       this.httpClient.post(`${environment.apiUrl}/user-auth/${user.id}`, {
@@ -46,6 +47,21 @@ export class LastfmService {
       { defaultValue: null },
     );
 
-    return response;
+    return response as UserStatus | null;
+  }
+
+  async toggleUserScrobbles(): Promise<UserStatus | null> {
+    const user = this.discordService.userData;
+    const userAuth = JSON.parse(localStorage.getItem('discord_user_auth')!);
+    if (!user || !userAuth) return null;
+
+    const response = await firstValueFrom(
+      this.httpClient.patch(`${environment.apiUrl}/user-auth/${user.id}`, {
+        discordToken: userAuth.token,
+      }),
+      { defaultValue: null },
+    );
+
+    return response as UserStatus | null;
   }
 }

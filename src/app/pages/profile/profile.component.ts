@@ -71,7 +71,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
           Conectar Last.fm
         </button>
 
-        <mat-slide-toggle>Scrobbles on!</mat-slide-toggle>
+        <mat-slide-toggle
+          (change)="toggleScrobbles()"
+          [disabled]="scrobbleToggleDisabled"
+          [checked]="scrobblesOn"
+          >Scrobbles on!</mat-slide-toggle
+        >
       </div>
     </div>
   `,
@@ -138,6 +143,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 export class ProfileComponent implements OnInit {
   registerStatusMessage: string | null = null;
   registered = false;
+  scrobblesOn = false;
+  scrobbleToggleDisabled = false;
   userData?: User | null = null;
   private lastfmService: LastfmService = inject(LastfmService);
 
@@ -159,14 +166,29 @@ export class ProfileComponent implements OnInit {
       if (response) {
         this.registerStatusMessage = 'Conta do Last.fm vinculada!';
         this.registered = true;
+        this.scrobblesOn = response.scrobblesOn;
       } else {
         this.registerStatusMessage = 'Conta do Last.fm não vinculada!';
         this.registered = false;
+        this.scrobblesOn = false;
       }
     } catch (error) {
       this.registerStatusMessage = 'Conta do Last.fm não vinculada!';
-
       this.registered = false;
+      this.scrobblesOn = false;
+    }
+  }
+
+  async toggleScrobbles(): Promise<void> {
+    this.scrobbleToggleDisabled = true;
+    try {
+      const response = await this.lastfmService.toggleUserScrobbles();
+      if (response) {
+        this.scrobblesOn = response.scrobblesOn;
+        this.scrobbleToggleDisabled = false;
+      }
+    } catch (error) {
+      this.scrobblesOn = false;
     }
   }
 }

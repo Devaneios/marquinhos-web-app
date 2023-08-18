@@ -72,6 +72,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         </button>
 
         <mat-slide-toggle
+          class="scrobble-toggle"
+          *ngIf="registered"
           (change)="toggleScrobbles()"
           [disabled]="scrobbleToggleDisabled"
           [checked]="scrobblesOn"
@@ -127,6 +129,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
           gap: 1rem;
 
           h2 {
+            font-size: 1.2rem;
+          }
+
+          ::ng-deep label {
             font-size: 1.2rem;
           }
         }

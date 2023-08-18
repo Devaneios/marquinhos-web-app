@@ -25,10 +25,10 @@ export class LastfmService {
       this.httpClient.post(`${environment.apiUrl}/user-auth`, {
         discordId: user.id,
         discordToken: userAuth.token,
-        discordTokenExpiresAt: userAuth.expires_at.toString(),
         lastfmToken: token,
+        scrobblesOn: true,
       }),
-      { defaultValue: null }
+      { defaultValue: null },
     );
 
     return response;
@@ -43,7 +43,7 @@ export class LastfmService {
       this.httpClient.post(`${environment.apiUrl}/user-auth/${user.id}`, {
         discordToken: userAuth.token,
       }),
-      { defaultValue: null }
+      { defaultValue: null },
     );
 
     return response;

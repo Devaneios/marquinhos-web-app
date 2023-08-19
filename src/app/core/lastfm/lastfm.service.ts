@@ -41,14 +41,19 @@ export class LastfmService {
     const userAuth = JSON.parse(localStorage.getItem('discord_user_auth')!);
     if (!user || !userAuth) return null;
 
-    const response = await firstValueFrom(
-      this.httpClient.post(`${environment.apiUrl}/user-auth/${user.id}`, {
-        discordToken: userAuth.token,
-      }),
-      { defaultValue: null },
-    );
+    try {
+      const response = await firstValueFrom(
+        this.httpClient.post(`${environment.apiUrl}/user-auth/${user.id}`, {
+          discordToken: userAuth.token,
+        }),
+        { defaultValue: null },
+      );
 
-    return response as UserStatus | null;
+      return response as UserStatus | null;
+    } catch (error: any) {
+      if (error.status === 404) return { discordId: '', scrobblesOn: false };
+      throw error;
+    }
   }
 
   async toggleUserScrobbles(): Promise<UserStatus | null> {

@@ -4,6 +4,7 @@ import { DiscordService } from '../discord/discord.service';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserStatus } from 'src/app/types/user-status.interface';
+import { PrivacyPolicy } from 'src/app/types/privacy-policy.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +64,14 @@ export class LastfmService {
     );
 
     return response as UserStatus | null;
+  }
+
+  async getPrivacyPolicy(): Promise<PrivacyPolicy | null> {
+    const response = await firstValueFrom(
+      this.httpClient.get(`${environment.apiUrl}/privacy-policy`),
+      { defaultValue: null },
+    );
+
+    return response as PrivacyPolicy | null;
   }
 }

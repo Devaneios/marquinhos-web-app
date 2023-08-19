@@ -33,7 +33,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       </table>
     </div>
     <div class="section">
-      <h1 class="section-name">Lastfm</h1>
+      <h1 class="section-name">Integração com Lastfm</h1>
       <div class="lastfm-status">
         <mat-chip
           highlighted
@@ -89,13 +89,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         width: 100%;
         display: flex;
         flex-direction: column;
-        padding: 20px 15rem;
+        padding: 2rem 15rem;
         color: #fff;
         gap: 2rem;
 
         .section {
           background-color: #2f3136;
-          padding: 1rem;
+          padding: 3rem;
           border-radius: 5px;
           box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
         }
@@ -127,20 +127,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
           align-items: flex-start;
           width: fit-content;
           gap: 1rem;
-
-          h2 {
-            font-size: 1.2rem;
-          }
-
-          ::ng-deep label {
-            font-size: 1.2rem;
-          }
         }
       }
 
       @media (max-width: 768px) {
         :host {
-          padding: 20px 0.5rem;
+          padding: 4rem 0.5rem;
         }
       }
     `,
@@ -169,7 +161,7 @@ export class ProfileComponent implements OnInit {
   async getRegisterStatus(): Promise<void> {
     try {
       const response = await this.lastfmService.getUserRegisteredStatus();
-      if (response) {
+      if (response && response.discordId !== '') {
         this.registerStatusMessage = 'Conta do Last.fm vinculada!';
         this.registered = true;
         this.scrobblesOn = response.scrobblesOn;
@@ -179,7 +171,7 @@ export class ProfileComponent implements OnInit {
         this.scrobblesOn = false;
       }
     } catch (error) {
-      this.registerStatusMessage = 'Conta do Last.fm não vinculada!';
+      this.registerStatusMessage = 'Houve um erro ao verificar o registro!';
       this.registered = false;
       this.scrobblesOn = false;
     }

@@ -1,8 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { User } from './types/user.interface';
 import { ProfileOptionsComponent } from './components/profile-options/profile-options.component';
 import { AuthService } from './core/auth/auth.service';
 import { DiscordService } from './core/discord/discord.service';

@@ -26,7 +26,14 @@ export class LoginLastFmComponent implements OnInit {
     private lastfmService: LastfmService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const response = await this.lastfmService.getUserRegisteredStatus();
+
+    if (response && response.discordId !== '') {
+      this.router.navigate(['/profile']);
+      return;
+    }
+
     this.route.queryParams.subscribe(async (param) => {
       const params = new URLSearchParams(param ?? '');
       const access_token = params.get('token');
@@ -37,7 +44,11 @@ export class LoginLastFmComponent implements OnInit {
       }
 
       const matDialogRef = this.dialog.open(PrivacyPolicyDialogComponent, {
-        maxWidth: '550px',
+        data: {
+          privacyPolicy: await this.lastfmService.getPrivacyPolicy(),
+          showActions: true,
+        },
+        maxWidth: '750px',
       });
 
       matDialogRef.afterClosed().subscribe(async (result) => {

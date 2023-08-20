@@ -1,14 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
   template: `
     <div class="section">
-      <div class="section-apps">
-        <h1>Apps</h1>
-        <div class="section-item"></div>
+      <div class="section-name">
+        <h1>Apagar seus Dados</h1>
+      </div>
+      <div class="section-actions">
+        <button mat-raised-button color="warn" (click)="deleteLastfmData()">
+          Remover informações do Last.fm
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteAllData()">
+          Remover todas as informações
+        </button>
       </div>
     </div>
   `,
@@ -22,14 +30,24 @@ import { CommonModule } from '@angular/common';
         padding: 20px 15rem;
         color: #fff;
 
-        .section {
-          background-color: #2f3136;
-          padding: 1rem;
-          border-radius: 5px;
-          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+        .section-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          width: fit-content;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        :host {
+          padding: 20px 0.5rem;
         }
       }
     `,
   ],
 })
-export class SettingsComponent {}
+export class SettingsComponent {
+  deleteLastfmData() {}
+
+  deleteAllData() {}
+}

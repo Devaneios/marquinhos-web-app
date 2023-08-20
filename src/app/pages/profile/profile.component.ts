@@ -93,18 +93,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         color: #fff;
         gap: 2rem;
 
-        .section {
-          background-color: #2f3136;
-          padding: 3rem;
-          border-radius: 5px;
-          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-        }
-
-        .section-name {
-          font-size: 2rem;
-          margin-bottom: 1.5rem;
-        }
-
         table {
           width: 100%;
           border-collapse: collapse;

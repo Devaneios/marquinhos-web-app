@@ -1,6 +1,6 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -23,7 +23,7 @@ $marquinhos-web-accent: mat.define-palette(
 $marquinhos-web-warn: mat.define-palette(mat.$red-palette);
 
 $my-typography: mat.define-typography-config(
-  $font-family: "Nunito",
+  $font-family: 'Nunito',
 );
 
 // Create the theme object. A theme consists of configurations for individual
@@ -161,7 +161,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -175,7 +175,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 
 .profile-menu-container {
@@ -184,4 +184,48 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+[scrollState] {
+  overflow: scroll;
+  transition: box-shadow 125ms ease-in-out;
+
+  $topShadow: inset 0px 6px 6px -5px #88888881;
+  $topShadowTransparent: inset 0px 6px 6px -5px transparent;
+  $bottomShadow: inset 0px -6px 6px -5px #88888881;
+  $bottomShadowTransparent: inset 0px -6px 6px -5px transparent;
+
+  &.can-scroll-up {
+    box-shadow: $topShadow, $bottomShadowTransparent;
+  }
+
+  &.can-scroll-down {
+    box-shadow: $topShadowTransparent, $bottomShadow;
+  }
+
+  &.can-scroll-up.can-scroll-down {
+    box-shadow: $topShadow, $bottomShadow;
+  }
+}
+
+.section {
+  background-color: #2f3136;
+  padding: 3rem;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+}
+
+.section-name {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 1rem;
+  }
+
+  .section-name {
+    font-size: 1.5rem;
+  }
 }

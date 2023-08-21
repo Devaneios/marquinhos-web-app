@@ -7,7 +7,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { LastfmService } from 'src/app/core/lastfm/lastfm.service';
-import { ScrollStateDirective } from 'src/app/core/scroll-state.directive';
+import { ScrollStateDirective } from 'src/app/components/scroll-shadow/scroll-state.directive';
 import { PrivacyPolicy } from 'src/app/types/privacy-policy.interface';
 
 @Component({

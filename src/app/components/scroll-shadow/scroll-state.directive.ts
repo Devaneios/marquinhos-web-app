@@ -24,16 +24,12 @@ export class ScrollStateDirective implements OnDestroy, AfterContentInit {
   constructor(readonly vcRef: ViewContainerRef) {
     this.hostElement = vcRef.element.nativeElement;
 
-    // TODO: handle host height changes as well
     fromEvent(this.hostElement, 'scroll')
       .pipe(auditTime(this.auditTimeMs), takeUntil(this.destroy$))
       .subscribe(() => {
         this.setClasses();
       });
   }
-
-  // Alternatively use HostListener instead of fromEvent to listen to scroll event, but HostListener triggers CD on each scroll and you still have to add an observable to debounce it
-  // @HostListener('scroll')
 
   public ngAfterContentInit(): void {
     setTimeout(() => this.setClasses(), 500);
@@ -45,19 +41,11 @@ export class ScrollStateDirective implements OnDestroy, AfterContentInit {
   }
 
   private setClasses() {
-    // TODO: check if margins/paddings have to be included in these calculations
     const canScrollUp = this.hostElement.scrollTop > 0;
     const canScrollDown =
       this.hostElement.scrollTop + this.hostElement.clientHeight <
       this.hostElement.scrollHeight;
 
-    console.log(
-      this.hostElement.scrollTop,
-      this.hostElement.clientHeight,
-      this.hostElement.scrollHeight,
-    );
-
-    // TODO: make setting and removing classes platform-agnostic (use Renderer2)
     this.hostElement.classList.remove(this.canScrollDownClass);
     this.hostElement.classList.remove(this.canScrollUpClass);
 

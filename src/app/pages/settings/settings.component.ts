@@ -1,10 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { LastfmService } from 'src/app/core/lastfm/lastfm.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    ConfirmDialogComponent,
+    MatDialogModule,
+  ],
   template: `
     <div class="section">
       <div class="section-name">
@@ -47,7 +60,40 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class SettingsComponent {
-  deleteLastfmData() {}
+  lastfmService = inject(LastfmService);
+  dialog = inject(MatDialog);
 
-  deleteAllData() {}
+  deleteLastfmData() {
+    const deleteDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Você tem certeza?',
+        message: 'Não será mais possível fazer o scrobble das suas músicas.',
+      },
+    });
+
+    deleteDialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.lastfmService.deleteLastfmUserToken();
+      }
+    });
+  }
+
+  deleteAllData() {
+    const deleteDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Você tem certeza?',
+        message:
+          'Todas as suas informações serão removidas e você será desconectado.',
+      },
+    });
+
+    deleteDialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        await this.lastfmService.deleteAllUserData();
+        localStorage.removeItem('discord_user_auth');
+        localStorage.removeItem('user');
+        window.location.reload();
+      }
+    });
+  }
 }

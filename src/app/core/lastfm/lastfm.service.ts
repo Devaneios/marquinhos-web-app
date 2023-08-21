@@ -43,9 +43,12 @@ export class LastfmService {
 
     try {
       const response = await firstValueFrom(
-        this.httpClient.post(`${environment.apiUrl}/user-auth/${user.id}`, {
-          discordToken: userAuth.token,
-        }),
+        this.httpClient.post(
+          `${environment.apiUrl}/user-auth/lastfm-status/${user.id}`,
+          {
+            discordToken: userAuth.token,
+          },
+        ),
         { defaultValue: null },
       );
 
@@ -78,5 +81,35 @@ export class LastfmService {
     );
 
     return response as PrivacyPolicy | null;
+  }
+
+  async deleteLastfmUserToken() {
+    const user = this.discordService.userData;
+    const userAuth = JSON.parse(localStorage.getItem('discord_user_auth')!);
+    if (!user || !userAuth) return null;
+
+    const response = await firstValueFrom(
+      this.httpClient.delete(`${environment.apiUrl}/user-auth/lastfm-data`, {
+        body: { discordId: user.id, discordToken: userAuth.token },
+      }),
+      { defaultValue: null },
+    );
+
+    return response as UserStatus | null;
+  }
+
+  async deleteAllUserData() {
+    const user = this.discordService.userData;
+    const userAuth = JSON.parse(localStorage.getItem('discord_user_auth')!);
+    if (!user || !userAuth) return null;
+
+    const response = await firstValueFrom(
+      this.httpClient.delete(`${environment.apiUrl}/user-auth/all-data`, {
+        body: { discordId: user.id, discordToken: userAuth.token },
+      }),
+      { defaultValue: null },
+    );
+
+    return response as UserStatus | null;
   }
 }

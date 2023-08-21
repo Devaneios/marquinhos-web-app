@@ -28,10 +28,12 @@ export const routes: Routes = [
   {
     path: 'redirect-lastfm',
     component: LoginLastFmComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'settings',
     component: SettingsComponent,
+    canActivate: [authGuard],
   },
   {
     path: '',

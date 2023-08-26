@@ -30,14 +30,11 @@ export class LoginDiscordComponent implements OnInit {
       await this.authService.login(code);
 
       try {
-        if (await this._userService.exists()) {
-          await this.router.navigate(['/profile']);
-          return;
-        }
         await this._userService.create();
-        this.router.navigate(['/profile']);
+        await this.router.navigate(['/profile']);
       } catch (error) {
-        await this.router.navigate(['/login']);
+        await this._userService.profile();
+        await this.router.navigate(['/profile']);
       }
     });
   }

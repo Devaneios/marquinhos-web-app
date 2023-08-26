@@ -10,6 +10,7 @@ import {
 } from '@angular/material/dialog';
 import { PrivacyPolicyDialogComponent } from 'src/app/components/privacy-policy-dialog/privacy-policy-dialog.component';
 import { UserService } from 'src/app/core/user/user.service';
+import { MiscService } from 'src/app/core/misc/misc.service';
 
 @Component({
   standalone: true,
@@ -20,6 +21,7 @@ import { UserService } from 'src/app/core/user/user.service';
 export class LoginLastFmComponent implements OnInit {
   private dialog = inject(MatDialog);
   private userService = inject(UserService);
+  private miscService = inject(MiscService);
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -31,31 +33,31 @@ export class LoginLastFmComponent implements OnInit {
       return;
     }
 
-    // this.route.queryParams.subscribe(async (param) => {
-    //   const params = new URLSearchParams(param ?? '');
-    //   const access_token = params.get('token');
+    this.route.queryParams.subscribe(async (param) => {
+      const params = new URLSearchParams(param ?? '');
+      const access_token = params.get('token');
 
-    //   if (!access_token) {
-    //     this.router.navigate(['/profile']);
-    //     return;
-    //   }
+      if (!access_token) {
+        this.router.navigate(['/profile']);
+        return;
+      }
 
-    //   const matDialogRef = this.dialog.open(PrivacyPolicyDialogComponent, {
-    //     data: {
-    //       privacyPolicy: await this.lastfmService.getPrivacyPolicy(),
-    //       showActions: true,
-    //     },
-    //     maxWidth: '750px',
-    //   });
+      const matDialogRef = this.dialog.open(PrivacyPolicyDialogComponent, {
+        data: {
+          privacyPolicy: await this.miscService.getPrivacyPolicy(),
+          showActions: true,
+        },
+        maxWidth: '750px',
+      });
 
-    //   matDialogRef.afterClosed().subscribe(async (result) => {
-    //     if (result) {
-    //       try {
-    //         await this.lastfmService.saveLastfmUserToken(access_token);
-    //       } catch (error) {}
-    //     }
-    //     this.router.navigate(['/profile']);
-    //   });
-    // });
+      matDialogRef.afterClosed().subscribe(async (result) => {
+        if (result) {
+          try {
+            await this.userService.enableLastfmIntegration(access_token);
+          } catch (error) {}
+        }
+        this.router.navigate(['/profile']);
+      });
+    });
   }
 }

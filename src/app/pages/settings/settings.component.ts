@@ -1,14 +1,9 @@
 import { Component, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { LastfmService } from 'src/app/core/lastfm/lastfm.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
+import { UserService } from 'src/app/core/user/user.service';
 
 @Component({
   standalone: true,
@@ -60,7 +55,7 @@ import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confir
   ],
 })
 export class SettingsComponent {
-  lastfmService = inject(LastfmService);
+  private _userService = inject(UserService);
   dialog = inject(MatDialog);
 
   deleteLastfmData() {
@@ -73,7 +68,7 @@ export class SettingsComponent {
 
     deleteDialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.lastfmService.deleteLastfmUserToken();
+        this._userService.deleteLastfmIntegration();
       }
     });
   }
@@ -89,9 +84,7 @@ export class SettingsComponent {
 
     deleteDialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        await this.lastfmService.deleteAllUserData();
-        localStorage.removeItem('discord_user_auth');
-        localStorage.removeItem('user');
+        await this._userService.delete();
         window.location.reload();
       }
     });

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DiscordService } from './discord.service';
+import { UserService } from './user.service';
 
 describe('DiscordService', () => {
-  let service: DiscordService;
+  let service: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DiscordService);
+    service = TestBed.inject(UserService);
   });
 
   it('should be created', () => {

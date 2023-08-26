@@ -83,10 +83,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "marquinhos-web:build:production"
+              "browserTarget": "marquinhos-web:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
-              "browserTarget": "marquinhos-web:build:development"
+              "browserTarget": "marquinhos-web:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

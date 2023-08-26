@@ -1,4 +1,4 @@
 export interface UserStatus {
-  discordId: string;
+  id: string;
   scrobblesOn: boolean;
 }

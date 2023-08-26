@@ -1,12 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { LastfmService } from 'src/app/core/lastfm/lastfm.service';
-import { DiscordService } from 'src/app/core/discord/discord.service';
+import { UserService } from 'src/app/core/user/user.service';
 import { User } from 'src/app/types/user.interface';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -24,11 +25,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       <table>
         <tr>
           <td>Nome de usuário</td>
-          <td>{{ userData?.username }}</td>
+          <td>{{ (user | async)?.username }}</td>
         </tr>
         <tr>
           <td>ID</td>
-          <td>{{ userData?.id }}</td>
+          <td>{{ (user | async)?.id }}</td>
         </tr>
       </table>
     </div>
@@ -131,25 +132,25 @@ export class ProfileComponent implements OnInit {
   registered = false;
   scrobblesOn = false;
   scrobbleToggleDisabled = false;
-  userData?: User | null = null;
-  private lastfmService: LastfmService = inject(LastfmService);
+  user?: Observable<User | null> = undefined;
 
-  private discordService = inject(DiscordService);
+  private _userService = inject(UserService);
+  private _authService = inject(AuthService);
   constructor() {}
 
   ngOnInit(): void {
     this.getRegisterStatus();
-    this.userData = this.discordService.userData;
+    this.user = this._userService.userObservable;
   }
 
   register(): void {
-    this.lastfmService.goToLastfmLoginURL();
+    this._authService.goToLastfmLoginURL();
   }
 
   async getRegisterStatus(): Promise<void> {
     try {
-      const response = await this.lastfmService.getUserRegisteredStatus();
-      if (response && response.discordId !== '') {
+      const response = await this._userService.lastfmIntegrationStatus();
+      if (response && response.id !== '') {
         this.registerStatusMessage = 'Conta do Last.fm vinculada!';
         this.registered = true;
         this.scrobblesOn = response.scrobblesOn;
@@ -168,7 +169,7 @@ export class ProfileComponent implements OnInit {
   async toggleScrobbles(): Promise<void> {
     this.scrobbleToggleDisabled = true;
     try {
-      const response = await this.lastfmService.toggleUserScrobbles();
+      const response = await this._userService.toggleScrobble();
       if (response) {
         this.scrobblesOn = response.scrobblesOn;
         this.scrobbleToggleDisabled = false;

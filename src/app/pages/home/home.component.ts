@@ -1,10 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from 'src/app/core/auth/auth.service';
-import { Router } from '@angular/router';
-import { LastfmService } from 'src/app/core/lastfm/lastfm.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PrivacyPolicyDialogComponent } from 'src/app/components/privacy-policy-dialog/privacy-policy-dialog.component';
+import { MiscService } from 'src/app/core/misc/misc.service';
 
 @Component({
   standalone: true,
@@ -114,13 +112,13 @@ import { PrivacyPolicyDialogComponent } from 'src/app/components/privacy-policy-
   ],
 })
 export class HomeComponent {
-  private lastfmService = inject(LastfmService);
+  private miscService = inject(MiscService);
   private dialog = inject(MatDialog);
 
   async openPrivacyPolicy() {
     this.dialog.open(PrivacyPolicyDialogComponent, {
       data: {
-        privacyPolicy: await this.lastfmService.getPrivacyPolicy(),
+        privacyPolicy: await this.miscService.getPrivacyPolicy(),
         showActions: false,
       },
       maxWidth: '750px',

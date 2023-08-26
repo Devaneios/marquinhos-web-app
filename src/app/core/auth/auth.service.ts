@@ -1,50 +1,60 @@
 import { Injectable, NgZone, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   httpClient = inject(HttpClient);
-  constructor(public router: Router) {}
 
-  isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('discord_user_auth')!);
-
-    if (user == null) {
-      return false;
-    } else {
-      const expires_at = user.expires_at;
-
-      if (new Date().getTime() > expires_at) {
-        return false;
+  async isLoggedIn(): Promise<boolean> {
+    try {
+      const user = await firstValueFrom(
+        this.httpClient.get(`${environment.apiUrl}/user/profile`),
+        { defaultValue: null },
+      );
+      if (user) {
+        return true;
       }
-      return true;
+      return false;
+    } catch (error) {
+      return false;
     }
   }
 
   async goToLoginURL() {
-    window.location.href = `https://discord.com/oauth2/authorize?response_type=token&client_id=695137715913621534&scope=identify&redirect_uri=${window.location.origin}/redirect-discord&prompt=none`;
+    const response = await firstValueFrom(
+      this.httpClient.get<{ data: string }>(
+        `${environment.apiUrl}/auth/discordLoginUrl`,
+      ),
+      { defaultValue: null },
+    );
+    window.location.href = response?.data ?? '';
   }
 
-  async saveDiscordUserToken(
-    token: string,
-    token_type: string,
-    expires_in: string
-  ) {
-    const user = {
-      token: token,
-      token_type: token_type,
-      expires_in: expires_in,
-      expires_at: new Date().getTime() + parseInt(expires_in) * 1000,
-    };
-
-    localStorage.setItem('discord_user_auth', JSON.stringify(user));
+  async goToLastfmLoginURL() {
+    const response = await firstValueFrom(
+      this.httpClient.get<{ data: string }>(
+        `${environment.apiUrl}/auth/lastfmLoginUrl`,
+      ),
+      { defaultValue: null },
+    );
+    window.location.href = response?.data ?? '';
   }
 
   logout() {
-    localStorage.removeItem('discord_user_auth');
-    this.router.navigate(['home']);
+    firstValueFrom(this.httpClient.get(`${environment.apiUrl}/auth/logout`), {
+      defaultValue: null,
+    });
+  }
+
+  public async login(code: string) {
+    await firstValueFrom(
+      this.httpClient.get(`${environment.apiUrl}/auth/login/?code=${code}`),
+      { defaultValue: null },
+    );
   }
 }

@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileOptionsComponent } from './components/profile-options/profile-options.component';
 import { AuthService } from './core/auth/auth.service';
-import { DiscordService } from './core/discord/discord.service';
+import { UserService } from './core/user/user.service';
+import { Observable } from 'rxjs';
+import { User } from './types/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +30,7 @@ import { DiscordService } from './core/discord/discord.service';
         (settings)="openSettings()"
         (profile)="openProfile()"
         (login)="goToLogin()"
-        [user]="discordService.userData"
+        [user]="user | async"
       ></app-profile-options>
     </header>
     <router-outlet></router-outlet>
@@ -81,14 +83,19 @@ import { DiscordService } from './core/discord/discord.service';
     `,
   ],
 })
-export class AppComponent {
-  public discordService = inject(DiscordService);
+export class AppComponent implements OnInit {
+  user?: Observable<User | null> = undefined;
+  public userService = inject(UserService);
   public router = inject(Router);
   private authService = inject(AuthService);
 
+  ngOnInit(): void {
+    this.user = this.userService.userObservable;
+    this.userService.profile();
+  }
+
   logout(): void {
     this.authService.logout();
-    this.discordService.logout();
     this.router.navigate(['/login']);
   }
 

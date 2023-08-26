@@ -2,40 +2,43 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import { DiscordService } from 'src/app/core/discord/discord.service';
+import { UserService } from 'src/app/core/user/user.service';
 
 @Component({
   standalone: true,
   imports: [CommonModule],
   providers: [],
-  template: ` <p>login works!</p> `,
+  template: ` <p>You should be redirect, nothing to see here!</p> `,
   styles: [],
 })
 export class LoginDiscordComponent implements OnInit {
-  private discordService = inject(DiscordService);
+  private authService = inject(AuthService);
+  private _userService = inject(UserService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.route.fragment.subscribe(async (fragment) => {
+    this.route.queryParams.subscribe(async (fragment) => {
       const params = new URLSearchParams(fragment ?? '');
-      const access_token = params.get('access_token');
-      const token_type = params.get('token_type');
-      const expires_in = params.get('expires_in');
+      const code = params.get('code');
 
-      await this.authService.saveDiscordUserToken(
-        access_token ?? '',
-        token_type ?? '',
-        expires_in ?? ''
-      );
+      if (!code) {
+        await this.authService.goToLoginURL();
+        return;
+      }
 
-      await this.discordService.loadUserData();
+      await this.authService.login(code);
 
-      await this.router.navigate(['/profile']);
+      try {
+        if (await this._userService.exists()) {
+          await this.router.navigate(['/profile']);
+          return;
+        }
+        await this._userService.create();
+        this.router.navigate(['/profile']);
+      } catch (error) {
+        await this.router.navigate(['/login']);
+      }
     });
   }
 }

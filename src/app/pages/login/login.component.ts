@@ -63,10 +63,11 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit(): void {
-    const isLoggedIn = this.authService.isLoggedIn();
-    if (isLoggedIn) {
-      this.router.navigate(['/profile']);
-    }
+    this.authService.isLoggedIn().then((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.router.navigate(['/profile']);
+      }
+    });
   }
 
   goToDiscordLogin() {

@@ -106,7 +106,7 @@ export class UserService {
 
   async toggleScrobble(): Promise<UserStatus | null> {
     const user = await firstValueFrom(
-      this.httpClient.post(`${environment.apiUrl}/user/toggle-scrobble`, {}),
+      this.httpClient.patch(`${environment.apiUrl}/user/toggle-scrobble`, {}),
       { defaultValue: null },
     );
     return user as unknown as UserStatus | null;

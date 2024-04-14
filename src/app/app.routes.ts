@@ -6,6 +6,7 @@ import { authGuard } from './core/auth/auth.guard';
 import { LoginLastFmComponent } from './pages/redirect/redirect-lastfm/redirect-lastfm.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { LoginComponent } from './pages/login/login.component';
+import { LastfmTopGeneratorDialogComponent } from './components/lastfm-top-generator-dialog/lastfm-top-generator-dialog.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'last-gen',
+    component: LastfmTopGeneratorDialogComponent,
   },
   {
     path: 'redirect-discord',

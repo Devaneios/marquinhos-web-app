@@ -1,0 +1,20 @@
+name: CI and Build package
+'on':
+  push:
+    branches:
+      - '*'
+      - '*/*'
+      - '**'
+      - '!main'
+jobs:
+  ci_and_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Clean Install
+        run: npm ci
+      - name: Unit tests
+        run: npm run test
+      - name: Build
+        run: npm run build

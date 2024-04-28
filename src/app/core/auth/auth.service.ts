@@ -1,19 +1,31 @@
 import { Injectable, NgZone, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LocalStorageService } from '../misc/local-storage.service';
+import { Authentication } from 'src/app/types/user-auth.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   httpClient = inject(HttpClient);
+  storage = inject(LocalStorageService);
 
   async isLoggedIn(): Promise<boolean> {
     try {
+      const authentication = this.storage.get(
+        'authentication',
+      ) as Authentication;
+      if (!authentication) {
+        return false;
+      }
       const user = await firstValueFrom(
-        this.httpClient.get(`${environment.apiUrl}/user/profile`),
+        this.httpClient.get(`${environment.apiUrl}/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${authentication.accessToken}`,
+          },
+        }),
         { defaultValue: null },
       );
       if (user) {
@@ -45,16 +57,35 @@ export class AuthService {
     window.location.href = response?.data ?? '';
   }
 
-  logout() {
-    firstValueFrom(this.httpClient.get(`${environment.apiUrl}/auth/logout`), {
-      defaultValue: null,
-    });
+  logout(): boolean {
+    return this.storage.remove('authentication');
   }
 
-  public async login(code: string) {
-    await firstValueFrom(
-      this.httpClient.get(`${environment.apiUrl}/auth/login/?code=${code}`),
-      { defaultValue: null },
-    );
+  async login(code: string): Promise<boolean> {
+    try {
+      this.storage.remove('authentication');
+      const response = await firstValueFrom(
+        this.httpClient.get(`${environment.apiUrl}/auth/login/?code=${code}`, {
+          observe: 'response',
+          responseType: 'json',
+        }),
+        { defaultValue: null },
+      );
+
+      if (response) {
+        console.log(response.headers);
+        const accessToken = response.headers
+          ?.get('Authorization')
+          ?.split(' ')[1];
+        const refreshToken = response.headers?.get('Refresh-Token');
+        return this.storage.set('authentication', {
+          accessToken,
+          refreshToken,
+        });
+      }
+    } catch (error) {
+      return false;
+    }
+    return false;
   }
 }

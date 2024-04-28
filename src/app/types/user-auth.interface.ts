@@ -4,3 +4,8 @@ export interface UserAuth {
   lastfmToken: string;
   scrobblesOn: boolean;
 }
+
+export type Authentication = {
+  accessToken: string;
+  refreshToken: string;
+};

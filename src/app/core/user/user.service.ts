@@ -10,6 +10,8 @@ import {
 import { UserStatus } from 'src/app/types/user-status.interface';
 import { User } from 'src/app/types/user.interface';
 import { environment } from 'src/environments/environment';
+import { LocalStorageService } from '../misc/local-storage.service';
+import { Authentication } from 'src/app/types/user-auth.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,41 +21,57 @@ export class UserService {
   private userSubject: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
   private httpClient = inject(HttpClient);
+  private _storage = inject(LocalStorageService);
 
   constructor() {
     this.userObservable = this.userSubject.asObservable();
   }
 
+  private get authentication(): Authentication | null {
+    return this._storage.get('authentication') as Authentication;
+  }
+
   async profile(): Promise<void> {
+    if (!this.authentication) {
+      return;
+    }
     try {
       const user = await firstValueFrom(
-        this.httpClient.get(`${environment.apiUrl}/user/profile`).pipe(
-          catchError((error) => {
-            if (
-              error.status === 404 ||
-              error.status === 401 ||
-              error.status === 409
-            ) {
-              return of(null);
-            }
-            throw error;
-          }),
-        ),
+        this.httpClient
+          .get(`${environment.apiUrl}/user/profile`, {
+            headers: {
+              Authorization: `Bearer ${this.authentication.accessToken}`,
+            },
+          })
+          .pipe(
+            catchError((error) => {
+              if (
+                error.status === 404 ||
+                error.status === 401 ||
+                error.status === 409
+              ) {
+                return of(null);
+              }
+              throw error;
+            }),
+          ),
         { defaultValue: null },
       );
       this.userSubject.next(user as unknown as User | null);
     } catch (error) {}
   }
 
-  async exists(): Promise<boolean> {
-    const user = await this.profile();
-    return this.userSubject.value !== null;
-  }
-
   async create(): Promise<void> {
+    if (!this.authentication) {
+      return;
+    }
     try {
       const user = await firstValueFrom(
-        this.httpClient.post(`${environment.apiUrl}/user/create`, {}),
+        this.httpClient.post(`${environment.apiUrl}/user/create`, {
+          headers: {
+            Authorization: `Bearer ${this.authentication.accessToken}`,
+          },
+        }),
         { defaultValue: null },
       );
       this.userSubject.next(user as unknown as User | null);

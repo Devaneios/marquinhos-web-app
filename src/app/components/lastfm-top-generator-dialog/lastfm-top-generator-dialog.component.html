@@ -1,0 +1,53 @@
+<div
+  #lastfm
+  [style.transform]="'scale(' + scaleFactor + ')'"
+  class="mrq-lastfm-root"
+>
+  <div class="mrq-lastfm-header">
+    <div class="mrq-lastfm-info">
+      <div class="mrq-lastfm-name">{{ username }}</div>
+      <div class="mrq-lastfm-category">TOP {{ category }}</div>
+      <div class="mrq-lastfm-period">{{ period }}</div>
+    </div>
+    <div class="mrq-lastfm-first-image-container">
+      <img
+        class="mrq-lastfm-first-image"
+        [src]="firstImage.imageBase64"
+        alt="Eminem"
+        width="450"
+        height="450"
+      />
+      <div class="mrq-lastfm-item-index">
+        <span> #1 </span>
+      </div>
+      <div class="mrq-lastfm-item-title">
+        <span>
+          {{ firstImage.name }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="mrq-lastfm-body">
+    <div class="mrq-lastfm-card" *ngFor="let item of imagesData; index as idx">
+      <img
+        class="mrq-lastfm-image"
+        [src]="item.imageBase64"
+        [alt]="item.name"
+        [width]="item.width"
+        [height]="item.height"
+      />
+      <div class="mrq-lastfm-item-index">
+        <span> #{{ idx + 2 }} </span>
+      </div>
+      <div class="mrq-lastfm-item-title">
+        <span>
+          {{ item.name }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="mrq-lastfm-footer">
+    <span>Created by Marquinhos</span>
+    <img src="favicon.ico" alt="Logo" width="50" height="50" />
+  </div>
+</div>

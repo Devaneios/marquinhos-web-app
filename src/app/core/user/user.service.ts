@@ -129,4 +129,55 @@ export class UserService {
     );
     return user as unknown as UserStatus | null;
   }
+
+  async topArtists(period: string): Promise<any> {
+    const userId = this.userSubject.value?.id;
+
+    const topArtists = await firstValueFrom(
+      this.httpClient.get<any>(
+        `${environment.apiUrl}/user/top-artists/${period}/${userId}`,
+        {
+          headers: {
+            'marquinhos-agent': 'web',
+          },
+        },
+      ),
+      { defaultValue: null },
+    );
+    return topArtists;
+  }
+
+  async topTracks(period: string): Promise<any> {
+    const userId = this.userSubject.value?.id;
+
+    const topTracks = await firstValueFrom(
+      this.httpClient.get<any>(
+        `${environment.apiUrl}/user/top-tracks/${period}/${userId}`,
+        {
+          headers: {
+            'marquinhos-agent': 'web',
+          },
+        },
+      ),
+      { defaultValue: null },
+    );
+    return topTracks;
+  }
+
+  async topAlbums(period: string): Promise<any> {
+    const userId = this.userSubject.value?.id;
+
+    const topAlbums = await firstValueFrom(
+      this.httpClient.get<any>(
+        `${environment.apiUrl}/user/top-albums/${period}/${userId}`,
+        {
+          headers: {
+            'marquinhos-agent': 'web',
+          },
+        },
+      ),
+      { defaultValue: null },
+    );
+    return topAlbums;
+  }
 }

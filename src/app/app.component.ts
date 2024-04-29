@@ -22,7 +22,7 @@ import { User } from './types/user.interface';
     <header>
       <div class="logo" (click)="goToHome()">
         <img src="assets/logo.jpg" alt="logo" class="logo-image" />
-        <span class="logo-text">MarquinhosBOT</span>
+        <span class="logo-text">Marquinhos</span>
       </div>
       <app-profile-options
         *ngIf="router.url !== '/login'"
@@ -43,6 +43,7 @@ import { User } from './types/user.interface';
         display: flex;
         flex-direction: column;
         background-color: #36393f;
+        color: white;
 
         header {
           display: flex;

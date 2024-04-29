@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -70,6 +71,14 @@ import { Observable } from 'rxjs';
           (click)="register()"
         >
           Conectar Last.fm
+        </button>
+        <button
+          *ngIf="registered"
+          mat-raised-button
+          color="primary"
+          (click)="goToStoryGen()"
+        >
+          Crie o seu Story!
         </button>
 
         <mat-slide-toggle
@@ -136,6 +145,8 @@ export class ProfileComponent implements OnInit {
 
   private _userService = inject(UserService);
   private _authService = inject(AuthService);
+  private _router = inject(Router);
+
   constructor() {}
 
   ngOnInit(): void {
@@ -146,6 +157,10 @@ export class ProfileComponent implements OnInit {
 
   register(): void {
     this._authService.goToLastfmLoginURL();
+  }
+
+  goToStoryGen(): void {
+    this._router.navigate(['/story-gen']);
   }
 
   async getRegisterStatus(): Promise<void> {

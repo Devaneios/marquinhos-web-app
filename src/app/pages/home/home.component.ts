@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PrivacyPolicyDialogComponent } from 'src/app/components/privacy-policy-dialog/privacy-policy-dialog.component';
 import { MiscService } from 'src/app/core/misc/misc.service';
-import { LastfmTopGeneratorDialogComponent } from 'src/app/components/lastfm-top-generator-dialog/lastfm-top-generator-dialog.component';
+import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-story.component';
 
 @Component({
   standalone: true,
@@ -31,9 +31,6 @@ import { LastfmTopGeneratorDialogComponent } from 'src/app/components/lastfm-top
           >Política de Privacidade</a
         >.
       </p>
-      <button class="privacy-policy" (click)="openImageGenerator()">
-        Image Generator</button
-      >.
     </section>
     <footer>
       <p>
@@ -130,7 +127,7 @@ export class HomeComponent {
   }
 
   async openImageGenerator() {
-    this.dialog.open(LastfmTopGeneratorDialogComponent, {
+    this.dialog.open(LastfmStoryComponent, {
       data: {},
       width: '360px',
     });

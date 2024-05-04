@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileOptionsComponent } from './components/profile-options/profile-options.component';
@@ -12,7 +12,8 @@ import { User } from './types/user.interface';
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
+    NgIf,
+    AsyncPipe,
     RouterOutlet,
     HttpClientModule,
     ProfileOptionsComponent,

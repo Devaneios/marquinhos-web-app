@@ -8,8 +8,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject } from 'rxjs';
-import { LastfmTopGeneratorDialogComponent } from 'src/app/components/lastfm-top-generator-dialog/lastfm-top-generator-dialog.component';
+import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-story.component';
 import { UserService } from 'src/app/core/user/user.service';
+import { Platform } from '@angular/cdk/platform';
+import { ShareService } from 'src/app/core/misc/share.service';
 
 @Component({
   selector: 'app-story-gen',
@@ -25,7 +27,7 @@ import { UserService } from 'src/app/core/user/user.service';
     MatIconModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    LastfmTopGeneratorDialogComponent,
+    LastfmStoryComponent,
   ],
 })
 export class StoryGenComponent implements OnInit {
@@ -39,10 +41,16 @@ export class StoryGenComponent implements OnInit {
   loading = false;
 
   private _userService = inject(UserService);
+  private _platform = inject(Platform);
+  private _shareService = inject(ShareService);
 
-  @ViewChild(LastfmTopGeneratorDialogComponent)
-  story!: LastfmTopGeneratorDialogComponent;
+  @ViewChild(LastfmStoryComponent)
+  story!: LastfmStoryComponent;
   constructor() {}
+
+  get isSafari() {
+    return this._platform.SAFARI || this._platform.IOS;
+  }
 
   ngOnInit() {}
 
@@ -84,5 +92,14 @@ export class StoryGenComponent implements OnInit {
 
   closePreview() {
     this.previewOpen = false;
+  }
+
+  share() {
+    if (this.story.previewBlob) {
+      this._shareService.shareBlobAsPng(
+        this.story.previewBlob,
+        `${this.username}-lastfm-top-${this.categoryValue}-${this.periodValue}`,
+      );
+    }
   }
 }

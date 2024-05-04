@@ -1,9 +1,24 @@
 :host {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   gap: 18px;
   height: 100%;
+
+  .config-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100dvw;
+    max-width: 500px;
+    padding: 8px;
+    background-color: #2f3136;
+    border-radius: 5px;
+    margin: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+  }
 
   .options-list {
     display: flex;
@@ -26,6 +41,7 @@
 .example-accordion {
   display: block;
   max-width: 500px;
+  min-width: 344px;
 }
 
 .example-accordion-item {

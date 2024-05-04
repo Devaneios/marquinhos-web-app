@@ -1,0 +1,76 @@
+<div *ngIf="!previewImageURL" class="loading-overlay">
+  <div>
+    <h3>Preparando a sua Pré-visualização...</h3>
+    <mat-spinner [diameter]="48"></mat-spinner>
+  </div>
+</div>
+
+<div class="mrq-lastfm-hidden-preview">
+  <div #lastfm class="mrq-lastfm-root">
+    <div class="mrq-lastfm-header">
+      <div class="mrq-lastfm-info">
+        <div class="mrq-lastfm-name">{{ username }}</div>
+        <div class="mrq-lastfm-category">TOP {{ category }}</div>
+        <div class="mrq-lastfm-period">{{ period }}</div>
+      </div>
+      <div class="mrq-lastfm-first-image-container">
+        <img
+          class="mrq-lastfm-first-image"
+          [src]="firstImage.url"
+          alt="Eminem"
+          width="450"
+          height="450"
+        />
+        <div class="mrq-lastfm-item-text mrq-lastfm-item-index">
+          <span> #1 </span>
+        </div>
+        <div class="mrq-lastfm-item-text mrq-lastfm-item-title">
+          <span>
+            {{ firstImage.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="mrq-lastfm-body">
+      <div
+        class="mrq-lastfm-card"
+        *ngFor="let item of imagesDetails; index as idx"
+      >
+        <img
+          class="mrq-lastfm-image"
+          [src]="item.url"
+          [alt]="item.name"
+          [width]="300"
+          [height]="300"
+        />
+        <div class="mrq-lastfm-item-text mrq-lastfm-item-index">
+          <span> #{{ idx + 2 }} </span>
+        </div>
+        <div class="mrq-lastfm-item-text mrq-lastfm-item-title">
+          <span>
+            {{ item.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="mrq-lastfm-footer">
+      <span>Crafted by Marquinhos</span>
+      <img
+        *ngIf="lightTheme"
+        src="/assets/marquinhos-light.webp"
+        alt="Logo"
+        width="82"
+        height="64"
+      />
+      <img
+        *ngIf="!lightTheme"
+        src="/assets/marquinhos-dark.webp"
+        alt="Logo"
+        width="82"
+        height="64"
+      />
+    </div>
+  </div>
+</div>
+
+<img class="mrq-lastfm-preview" [src]="previewImageURL" alt="Preview" />

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LastfmTopGeneratorDialogComponent } from './lastfm-top-generator-dialog.component';
+import { LastfmStoryComponent } from './lastfm-story.component';
 
 describe('LastfmTopGeneratorDialogComponent', () => {
-  let component: LastfmTopGeneratorDialogComponent;
-  let fixture: ComponentFixture<LastfmTopGeneratorDialogComponent>;
+  let component: LastfmStoryComponent;
+  let fixture: ComponentFixture<LastfmStoryComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LastfmTopGeneratorDialogComponent]
+      imports: [LastfmStoryComponent],
     });
-    fixture = TestBed.createComponent(LastfmTopGeneratorDialogComponent);
+    fixture = TestBed.createComponent(LastfmStoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

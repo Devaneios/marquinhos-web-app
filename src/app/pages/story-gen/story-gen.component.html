@@ -8,13 +8,13 @@
 <div *ngIf="previewOpen" class="preview-container">
   <div class="preview-relative">
     <div class="lastfm-story">
-      <app-lastfm-top-generator-dialog
+      <mrq-lastfm-story
         #story
         [category]="categoryValue"
         [period]="periodValue"
         [username]="username"
-        [images]="images"
-      ></app-lastfm-top-generator-dialog>
+        [lastfmImages]="images"
+      ></mrq-lastfm-story>
     </div>
     <div class="preview-actions">
       <button
@@ -27,10 +27,19 @@
         Voltar
       </button>
       <button
+        *ngIf="isSafari"
+        mat-icon-button
+        class="preview-button"
+        color="primary"
+        (click)="story.loadPreviewImage()"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button
         mat-raised-button
         class="preview-button"
         color="primary"
-        (click)="story.shareSvg()"
+        (click)="share()"
       >
         <mat-icon>share</mat-icon>
 
@@ -40,111 +49,105 @@
   </div>
 </div>
 
-<cdk-accordion class="example-accordion">
-  <cdk-accordion-item
-    #accordionItem="cdkAccordionItem"
-    class="example-accordion-item"
-    role="button"
-    tabindex="0"
-    [attr.id]="'accordion-header-0'"
-    [attr.aria-expanded]="accordionItem.expanded"
-    [attr.aria-controls]="'accordion-body-0'"
-  >
-    <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
-      <p>Categoria</p>
-      <div class="accordion-header-right">
-        <mat-chip highlighted [color]="''">
-          {{ selectedCategory$ | async }}
-        </mat-chip>
-        <span *ngIf="!accordionItem.expanded" class="material-symbols-outlined">
-          expand_more
-        </span>
-        <span *ngIf="accordionItem.expanded" class="material-symbols-outlined">
-          expand_less
-        </span>
-      </div>
-    </div>
-    <div
-      class="example-accordion-item-body"
-      role="region"
-      [style.display]="accordionItem.expanded ? '' : 'none'"
-      [attr.id]="'accordion-body-0'"
-      [attr.aria-labelledby]="'accordion-header-0'"
+<div class="config-container">
+  <cdk-accordion class="example-accordion">
+    <cdk-accordion-item
+      #accordionItem="cdkAccordionItem"
+      class="example-accordion-item"
+      role="button"
+      tabindex="0"
+      [attr.id]="'accordion-header-0'"
+      [attr.aria-expanded]="accordionItem.expanded"
+      [attr.aria-controls]="'accordion-body-0'"
     >
-      <mat-radio-group
-        color="primary"
-        class="options-list"
-        aria-label="Select an option"
-        [value]="categoryValue"
-        (change)="onCategoryChange($event)"
+      <div
+        class="example-accordion-item-header"
+        (click)="accordionItem.toggle()"
       >
-        <mat-radio-button value="artists">Artistas</mat-radio-button>
-        <mat-radio-button value="albums">Álbuns</mat-radio-button>
-        <mat-radio-button value="tracks">Músicas</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </cdk-accordion-item>
-  <cdk-accordion-item
-    #accordionItem1="cdkAccordionItem"
-    class="example-accordion-item"
-    role="button"
-    tabindex="0"
-    [attr.id]="'accordion-header-0'"
-    [attr.aria-expanded]="accordionItem1.expanded"
-    [attr.aria-controls]="'accordion-body-0'"
-  >
-    <div
-      class="example-accordion-item-header"
-      (click)="accordionItem1.toggle()"
-    >
-      <p>Período</p>
-      <div class="accordion-header-right">
-        <mat-chip highlighted [color]="''">
-          {{ selectedPeriod$ | async }}
-        </mat-chip>
-        <span
-          *ngIf="!accordionItem1.expanded"
-          class="material-symbols-outlined"
+        <p>Categoria</p>
+        <div class="accordion-header-right">
+          <mat-chip highlighted [color]="''">
+            {{ selectedCategory$ | async }}
+          </mat-chip>
+          <mat-icon *ngIf="!accordionItem.expanded"> expand_more </mat-icon>
+          <mat-icon *ngIf="accordionItem.expanded"> expand_less </mat-icon>
+        </div>
+      </div>
+      <div
+        class="example-accordion-item-body"
+        role="region"
+        [style.display]="accordionItem.expanded ? '' : 'none'"
+        [attr.id]="'accordion-body-0'"
+        [attr.aria-labelledby]="'accordion-header-0'"
+      >
+        <mat-radio-group
+          color="primary"
+          class="options-list"
+          aria-label="Select an option"
+          [value]="categoryValue"
+          (change)="onCategoryChange($event)"
         >
-          expand_more
-        </span>
-        <span *ngIf="accordionItem1.expanded" class="material-symbols-outlined">
-          expand_less
-        </span>
+          <mat-radio-button value="artists">Artistas</mat-radio-button>
+          <mat-radio-button value="albums">Álbuns</mat-radio-button>
+          <mat-radio-button value="tracks">Músicas</mat-radio-button>
+        </mat-radio-group>
       </div>
-    </div>
-    <div
-      class="example-accordion-item-body"
-      role="region"
-      [style.display]="accordionItem1.expanded ? '' : 'none'"
-      [attr.id]="'accordion-body-0'"
-      [attr.aria-labelledby]="'accordion-header-0'"
+    </cdk-accordion-item>
+    <cdk-accordion-item
+      #accordionItem1="cdkAccordionItem"
+      class="example-accordion-item"
+      role="button"
+      tabindex="0"
+      [attr.id]="'accordion-header-0'"
+      [attr.aria-expanded]="accordionItem1.expanded"
+      [attr.aria-controls]="'accordion-body-0'"
     >
-      <mat-radio-group
-        color="primary"
-        class="options-list"
-        aria-label="Select an option"
-        [value]="periodValue"
-        (change)="onPeriodChange($event)"
+      <div
+        class="example-accordion-item-header"
+        (click)="accordionItem1.toggle()"
       >
-        <mat-radio-button value="7day">Última Semana</mat-radio-button>
-        <mat-radio-button value="1month">Último Mês</mat-radio-button>
-        <mat-radio-button value="3month">Últimos 3 meses</mat-radio-button>
-        <mat-radio-button value="6month">Últimos 6 meses</mat-radio-button>
-        <mat-radio-button value="12month">Último ano</mat-radio-button>
-        <mat-radio-button value="overall">Desde o início</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </cdk-accordion-item>
-</cdk-accordion>
-<div class="footer-actions">
-  <button
-    mat-raised-button
-    class="preview-button"
-    color="primary"
-    [disabled]="loading"
-    (click)="openPreview()"
-  >
-    Pré-visualizar
-  </button>
+        <p>Período</p>
+        <div class="accordion-header-right">
+          <mat-chip highlighted [color]="''">
+            {{ selectedPeriod$ | async }}
+          </mat-chip>
+          <mat-icon *ngIf="!accordionItem1.expanded"> expand_more </mat-icon>
+          <mat-icon *ngIf="accordionItem1.expanded"> expand_less </mat-icon>
+        </div>
+      </div>
+      <div
+        class="example-accordion-item-body"
+        role="region"
+        [style.display]="accordionItem1.expanded ? '' : 'none'"
+        [attr.id]="'accordion-body-0'"
+        [attr.aria-labelledby]="'accordion-header-0'"
+      >
+        <mat-radio-group
+          color="primary"
+          class="options-list"
+          aria-label="Select an option"
+          [value]="periodValue"
+          (change)="onPeriodChange($event)"
+        >
+          <mat-radio-button value="7day">Última Semana</mat-radio-button>
+          <mat-radio-button value="1month">Último Mês</mat-radio-button>
+          <mat-radio-button value="3month">Últimos 3 meses</mat-radio-button>
+          <mat-radio-button value="6month">Últimos 6 meses</mat-radio-button>
+          <mat-radio-button value="12month">Último ano</mat-radio-button>
+          <mat-radio-button value="overall">Desde o início</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </cdk-accordion-item>
+  </cdk-accordion>
+  <div class="footer-actions">
+    <button
+      mat-raised-button
+      class="preview-button"
+      color="primary"
+      [disabled]="loading"
+      (click)="openPreview()"
+    >
+      Pré-visualizar
+    </button>
+  </div>
 </div>

@@ -54,23 +54,14 @@
       </div>
     </div>
     <div class="mrq-lastfm-footer">
-      <span>Crafted by Marquinhos</span>
-      <img
-        *ngIf="lightTheme"
-        src="/assets/marquinhos-light.webp"
-        alt="Logo"
-        width="82"
-        height="64"
-      />
-      <img
-        *ngIf="!lightTheme"
-        src="/assets/marquinhos-dark.webp"
-        alt="Logo"
-        width="82"
-        height="64"
-      />
+      <div>Powered by Marquinhos</div>
     </div>
   </div>
 </div>
 
-<img class="mrq-lastfm-preview" [src]="previewImageURL" alt="Preview" />
+<img
+  [style.visibility]="previewImageURL ? 'visible' : 'hidden'"
+  class="mrq-lastfm-preview"
+  [src]="previewImageURL"
+  alt="Preview"
+/>

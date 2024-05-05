@@ -3,10 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  height: 100%;
 
-  .config-container {
+  .config {
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -14,7 +12,7 @@
     max-width: 500px;
     padding: 8px;
     background-color: #2f3136;
-    border-radius: 5px;
+    border-radius: 8px;
     margin: 16px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
@@ -36,116 +34,78 @@
     display: flex;
     justify-content: center;
   }
-}
 
-.example-accordion {
-  display: block;
-  max-width: 500px;
-  min-width: 344px;
-}
-
-.example-accordion-item {
-  display: block;
-}
-
-.example-accordion-item + .example-accordion-item {
-  border-top: none;
-}
-
-.example-accordion-item-header {
-  display: flex;
-  align-items: cen;
-  justify-content: space-between;
-
-  .accordion-header-right {
+  .accordion {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    max-width: 500px;
+    min-width: 344px;
+
+    &-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      > p {
+        align-content: center;
+      }
+    }
+
+    &-item-body {
+      padding: 0 16px 16px 16px;
+    }
   }
 
-  p {
-    align-content: center;
-  }
-}
-
-.example-accordion-item-description {
-  font-size: 0.85em;
-  color: #999;
-}
-
-.example-accordion-item-header,
-.example-accordion-item-body {
-  padding: 16px;
-}
-
-.example-accordion-item-body {
-  padding-top: 0;
-}
-
-.example-accordion-item-header:hover {
-  cursor: pointer;
-}
-
-.example-accordion-item:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.example-accordion-item:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-.preview-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100dvw;
-  height: 100dvh;
-  z-index: 10;
-  backdrop-filter: blur(10px);
-  padding: 24px;
-
-  .preview-actions {
-    bottom: 0;
+  .overlay {
+    position: absolute;
+    top: 0;
     left: 0;
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    justify-content: space-between;
+    width: 100dvw;
+    height: 100dvh;
+    backdrop-filter: blur(10px);
   }
 
-  .preview-relative {
-    position: relative;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  .preview {
+    z-index: 10;
+    padding: 24px;
+    display: grid;
+    gap: 24px;
+    grid-template-rows: 6f 1fr;
+
+    &-actions {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+
+    &-story {
+      width: 100%;
+    }
   }
 
-  .lastfm-story {
-    height: 100%;
-    width: 100%;
-  }
-}
-
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 20;
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  div {
+  .loading {
+    z-index: 20;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
     justify-content: center;
     align-items: center;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

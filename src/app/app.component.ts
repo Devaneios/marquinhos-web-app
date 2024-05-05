@@ -45,6 +45,7 @@ import { User } from './types/user.interface';
         flex-direction: column;
         background-color: #36393f;
         color: white;
+        overflow-y: overlay;
 
         header {
           display: flex;

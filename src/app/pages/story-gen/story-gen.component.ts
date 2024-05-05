@@ -25,7 +25,6 @@ import { ShareService } from 'src/app/core/misc/share.service';
     MatButtonModule,
     CdkAccordionModule,
     MatIconModule,
-    MatChipsModule,
     MatProgressSpinnerModule,
     LastfmStoryComponent,
   ],

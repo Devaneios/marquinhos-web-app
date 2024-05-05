@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostBinding,
   Input,
   OnInit,
   ViewChild,
@@ -10,25 +9,18 @@ import {
   inject,
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
 import { toBlob } from 'html-to-image';
-import { MatButtonModule } from '@angular/material/button';
 import { Platform } from '@angular/cdk/platform';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ImageDetails } from './image-position';
 import { periodMap } from './periods.interface';
 import { LastfmItem } from './lastfm-item.type';
+import { LastfmStoryCardComponent } from '../lastfm-story-card/lastfm-story-card.component';
 
 @Component({
   selector: 'mrq-lastfm-story',
   standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    MatDialogModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-  ],
+  imports: [NgIf, NgFor, MatProgressSpinnerModule, LastfmStoryCardComponent],
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'mrq-lastfm',
@@ -56,6 +48,7 @@ export class LastfmStoryComponent implements OnInit, AfterViewInit {
 
   imagesDetails: ImageDetails[] = [];
   firstImage!: ImageDetails;
+  previewImageURL = '';
 
   private _period = '';
   private _previewBlob: Blob | null = null;
@@ -87,8 +80,10 @@ export class LastfmStoryComponent implements OnInit, AfterViewInit {
     this.loadPreviewImage();
   }
 
-  get previewImageURL() {
-    return this._previewBlob ? URL.createObjectURL(this._previewBlob) : '';
+  updatePreviewImageURL() {
+    this.previewImageURL = this._previewBlob
+      ? URL.createObjectURL(this._previewBlob)
+      : '';
   }
 
   get previewBlob() {
@@ -96,6 +91,7 @@ export class LastfmStoryComponent implements OnInit, AfterViewInit {
   }
 
   async loadPreviewImage() {
+    this.previewImageURL = '';
     this._previewBlob = null;
     if (this._platform.SAFARI || this._platform.IOS) {
       await toBlob(this.lastfmContainer?.nativeElement, {
@@ -105,5 +101,6 @@ export class LastfmStoryComponent implements OnInit, AfterViewInit {
     this._previewBlob = await toBlob(this.lastfmContainer?.nativeElement, {
       preferredFontFormat: 'woff2',
     });
+    this.updatePreviewImageURL();
   }
 }

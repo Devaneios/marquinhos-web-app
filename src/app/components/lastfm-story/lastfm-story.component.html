@@ -1,67 +1,42 @@
-<div *ngIf="!previewImageURL" class="loading-overlay">
-  <div>
-    <h3>Preparando a sua Pré-visualização...</h3>
-    <mat-spinner [diameter]="48"></mat-spinner>
-  </div>
-</div>
-
-<div class="mrq-lastfm-hidden-preview">
-  <div #lastfm class="mrq-lastfm-root">
-    <div class="mrq-lastfm-header">
-      <div class="mrq-lastfm-info">
-        <div class="mrq-lastfm-name">{{ username }}</div>
-        <div class="mrq-lastfm-category">TOP {{ category }}</div>
-        <div class="mrq-lastfm-period">{{ period }}</div>
+<div class="hidden-preview">
+  <div #lastfm class="root">
+    <div class="header">
+      <div class="info">
+        <div class="name">{{ username }}</div>
+        <div class="category">TOP {{ category }}</div>
+        <div class="period">{{ period }}</div>
       </div>
-      <div class="mrq-lastfm-first-image-container">
-        <img
-          class="mrq-lastfm-first-image"
-          [src]="firstImage.url"
-          alt="Eminem"
-          width="450"
-          height="450"
-        />
-        <div class="mrq-lastfm-item-text mrq-lastfm-item-index">
-          <span> #1 </span>
-        </div>
-        <div class="mrq-lastfm-item-text mrq-lastfm-item-title">
-          <span>
-            {{ firstImage.name }}
-          </span>
-        </div>
+      <div class="first-image-container">
+        <story-card
+          [name]="firstImage.name"
+          [url]="firstImage.url"
+          [position]="1"
+          [width]="450"
+          [height]="450"
+          [transparentBorder]="transparentBorder"
+        >
+        </story-card>
       </div>
     </div>
-    <div class="mrq-lastfm-body">
-      <div
-        class="mrq-lastfm-card"
+    <div class="body">
+      <story-card
         *ngFor="let item of imagesDetails; index as idx"
+        [name]="item.name"
+        [url]="item.url"
+        [position]="idx + 2"
+        [width]="300"
+        [height]="300"
+        [transparentBorder]="transparentBorder"
       >
-        <img
-          class="mrq-lastfm-image"
-          [src]="item.url"
-          [alt]="item.name"
-          [width]="300"
-          [height]="300"
-        />
-        <div class="mrq-lastfm-item-text mrq-lastfm-item-index">
-          <span> #{{ idx + 2 }} </span>
-        </div>
-        <div class="mrq-lastfm-item-text mrq-lastfm-item-title">
-          <span>
-            {{ item.name }}
-          </span>
-        </div>
-      </div>
+      </story-card>
     </div>
-    <div class="mrq-lastfm-footer">
-      <div>Powered by Marquinhos</div>
+    <div class="footer">
+      <div class="note">Created by Marquinhos</div>
+      <div class="logo"></div>
     </div>
   </div>
 </div>
 
-<img
-  [style.visibility]="previewImageURL ? 'visible' : 'hidden'"
-  class="mrq-lastfm-preview"
-  [src]="previewImageURL"
-  alt="Preview"
-/>
+<div class="preview-container">
+  <img class="preview" [src]="previewImageURL" alt="Preview" />
+</div>

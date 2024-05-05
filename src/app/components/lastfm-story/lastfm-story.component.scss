@@ -1,225 +1,123 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
 .mrq-lastfm {
   position: relative;
   overflow: hidden;
   color: black;
   display: flex;
   justify-content: center;
-  max-width: 100vw;
+  width: 100vw;
   box-sizing: border-box;
+  font-family: 'Bebas Neue', sans-serif;
 
-  &-loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-family: 'Bebas Neue', sans-serif;
-    color: white;
-    background-color: rgba(0, 0, 0);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-  }
-
-  --background: url('../../../assets/story-background-dark.webp');
+  --background: url('/assets/story-background-dark.webp');
+  --footer-logo: url('/assets/marquinhos-dark.webp');
   --text-background: rgba(0, 0, 0, 0.75);
   --font-color: white;
 
   &-light {
     --font-color: black;
-    --background: url('../../../assets/story-background-light.webp');
+    --footer-logo: url('/assets/marquinhos-light.webp');
+    --background: url('/assets/story-background-light.webp');
     --text-background: rgba(255, 255, 255, 0.75);
   }
 
-  button {
-    font-size: 20px;
-    width: fit-content;
-  }
-  > span {
-    font-size: 20px;
-    padding: 8px;
-  }
-
-  &-header,
-  &-body {
-    img {
-      -webkit-filter: drop-shadow(0px 3px 10px rgba(0, 0, 0, 0.8));
-      filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.8));
-    }
+  .root {
+    display: flex;
+    padding-top: 250px;
+    align-items: center;
+    flex-direction: column;
+    color: var(--font-color);
+    min-width: 1080px;
+    max-width: 1080px;
+    min-height: 1920px;
+    max-height: 1920px;
+    gap: 40px;
+    background-image: var(--background);
   }
 
-  &.mrq-transparent-border .mrq-lastfm-first-image,
-  &.mrq-transparent-border .mrq-lastfm-image {
-    --b: 6px; /* the border thickness */
-    --d: 15px; /* the distance from the edge */
-
-    --_g: calc(100% - 2 * (var(--d) + var(--b)));
-
-    mask: conic-gradient(from 90deg at var(--d) var(--d), #0000 25%, #000 0) 0 0 /
-        calc(100% - var(--d)) calc(100% - var(--d)),
-      linear-gradient(#000 0 0) 50% / var(--_g) var(--_g) no-repeat;
+  .hidden-preview {
+    max-width: 0px;
+    max-height: 0px;
+    overflow: scroll;
+    position: absolute;
+    bottom: 0;
+    right: 0;
   }
 
-  .mrq-lastfm {
-    &-root {
-      display: flex;
-      padding-top: 250px;
-      align-items: center;
-      flex-direction: column;
-      color: var(--font-color);
-      font-family: 'Bebas Neue', sans-serif;
-      min-width: 1080px;
-      max-width: 1080px;
-      min-height: 1920px;
-      max-height: 1920px;
-      gap: 40px;
-      background-image: var(--background);
-    }
+  .preview {
+    max-width: 432px;
+    width: 100%;
+    object-fit: scale-down;
 
-    &-hidden-preview {
-      max-width: 0px;
-      max-height: 0px;
-      overflow: scroll;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-    }
-
-    &-preview {
-      max-width: 432px;
-      width: 100%;
-      object-fit: scale-down;
-    }
-
-    &-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 0 60px;
-    }
-
-    &-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 40px;
-      padding-right: 0;
-      height: 100%;
-    }
-
-    &-body {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 30px;
-      padding: 0 70px;
-    }
-
-    &-image {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      object-fit: cover;
-    }
-
-    &-first-image {
-      object-fit: cover;
-
-      &-container {
-        font-size: 48px;
-        position: relative;
-        max-width: 450px;
-        max-height: 450px;
-      }
-    }
-
-    &-item-text {
-      position: absolute;
-      padding: 4px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      background-color: var(--text-background);
-    }
-
-    &-item-title {
-      bottom: 0;
-      left: 0;
-      padding-left: 8px;
-      width: 100%;
-    }
-
-    &-item-index {
-      top: 0;
-      right: 0;
-      width: fit-content;
-    }
-
-    &-card {
-      position: relative;
-      font-size: 36px;
-    }
-
-    &-text {
-      font-family: 'Bebas Neue', sans-serif;
-      fill: black;
-      text-transform: uppercase;
-    }
-
-    &-name {
-      font-size: 60px;
-      letter-spacing: 2px;
-    }
-
-    &-category {
-      font-size: 45px;
-      letter-spacing: 6px;
-    }
-
-    &-period {
-      font-size: 30px;
-      letter-spacing: 10px;
-    }
-
-    &-footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-      letter-spacing: 2px;
-      width: 100%;
-      height: fit-content;
-
-      div {
-        margin-left: 70px;
-      }
+    &-container {
+      padding: 24px;
     }
   }
-}
 
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 20;
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 60px;
+  }
 
-  div {
+  .info {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    justify-content: center;
+    gap: 40px;
+    padding-right: 0;
+    height: 100%;
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+  }
+
+  .name {
+    font-size: 60px;
+    letter-spacing: 2px;
+  }
+
+  .category {
+    font-size: 45px;
+    letter-spacing: 6px;
+  }
+
+  .period {
+    font-size: 30px;
+    letter-spacing: 10px;
+  }
+
+  .footer {
+    display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    width: 100%;
+    height: fit-content;
+    padding: 2px;
+    gap: 12px;
+
+    .logo {
+      height: 29px;
+      width: 36px;
+      background-image: var(--footer-logo);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: top;
+    }
+
+    .note {
+      font-size: 30px;
+      max-width: 294px;
+      min-width: 294px;
+      max-height: 30px;
+      min-height: 30px;
+      letter-spacing: 3px;
+      text-align: center;
+      line-height: 34px;
+    }
   }
 }

@@ -39,8 +39,8 @@ import { User } from './types/user.interface';
   styles: [
     `
       :host {
-        height: 100%;
-        width: 100%;
+        height: 100dvh;
+        width: 100dvw;
         display: flex;
         flex-direction: column;
         background-color: #36393f;
@@ -52,8 +52,7 @@ import { User } from './types/user.interface';
           align-items: center;
           justify-content: space-between;
           color: #7289da;
-          padding: 1rem 15rem;
-
+          padding: 1rem;
           background-color: #2f3136;
           box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 

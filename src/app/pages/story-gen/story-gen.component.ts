@@ -35,6 +35,10 @@ export class StoryGenComponent implements OnInit {
   periodValue = '1month';
   selectedCategory$ = new BehaviorSubject<string>('Artistas');
   categoryValue = 'artists';
+  selectedTheme$ = new BehaviorSubject<string>('Escuro');
+  themeValue = 'dark';
+  selectedBorder$ = new BehaviorSubject<string>('Sem borda');
+  borderValue = 'none';
   previewOpen = false;
   username = '';
   images = [];
@@ -67,6 +71,24 @@ export class StoryGenComponent implements OnInit {
     if (event) {
       this.periodValue = event.value;
       this.selectedPeriod$.next(
+        (event.source._elementRef.nativeElement as HTMLElement).innerText,
+      );
+    }
+  }
+
+  onThemeChange(event: MatRadioChange) {
+    if (event) {
+      this.themeValue = event.value;
+      this.selectedTheme$.next(
+        (event.source._elementRef.nativeElement as HTMLElement).innerText,
+      );
+    }
+  }
+
+  onBorderChange(event: MatRadioChange) {
+    if (event) {
+      this.borderValue = event.value;
+      this.selectedBorder$.next(
         (event.source._elementRef.nativeElement as HTMLElement).innerText,
       );
     }

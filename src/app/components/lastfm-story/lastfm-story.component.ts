@@ -32,8 +32,8 @@ import { LastfmItem } from './lastfm-item.type';
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'mrq-lastfm',
-    'class.mrq-lastfm-light': 'lightTheme',
-    'class.mrq-transparent-border': 'transparentBorder',
+    '[class.mrq-lastfm-light]': 'lightTheme',
+    '[class.mrq-transparent-border]': 'transparentBorder',
   },
   templateUrl: 'lastfm-story.component.html',
   styleUrls: ['lastfm-story.component.scss'],

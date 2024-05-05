@@ -1,3 +1,17 @@
-<p>
-  lastfm-story-card works!
-</p>
+<img
+  (load)="imageLoaded()"
+  class="image"
+  [class.transparent-border]="transparentBorder"
+  [src]="url"
+  [alt]="name"
+  [width]="width"
+  [height]="height"
+/>
+<div class="text index">
+  <span> #{{ position }} </span>
+</div>
+<div class="text title">
+  <span>
+    {{ name }}
+  </span>
+</div>

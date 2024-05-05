@@ -12,9 +12,9 @@
       <div class="accordion-item-header" (click)="accordionItem.toggle()">
         <p>Categoria</p>
         <div class="accordion-item-header-right">
-          <mat-chip highlighted [color]="''">
+          <label class="accordion-selected">
             {{ selectedCategory$ | async }}
-          </mat-chip>
+          </label>
           <mat-icon *ngIf="!accordionItem.expanded"> expand_more </mat-icon>
           <mat-icon *ngIf="accordionItem.expanded"> expand_less </mat-icon>
         </div>
@@ -51,9 +51,9 @@
       <div class="accordion-item-header" (click)="accordionItem1.toggle()">
         <p>Período</p>
         <div class="accordion-item-header-right">
-          <mat-chip highlighted [color]="''">
+          <label class="accordion-selected">
             {{ selectedPeriod$ | async }}
-          </mat-chip>
+          </label>
           <mat-icon *ngIf="!accordionItem1.expanded"> expand_more </mat-icon>
           <mat-icon *ngIf="accordionItem1.expanded"> expand_less </mat-icon>
         </div>
@@ -93,9 +93,9 @@
       <div class="accordion-item-header" (click)="accordionItem2.toggle()">
         <p>Tema</p>
         <div class="accordion-item-header-right">
-          <mat-chip highlighted>
+          <label class="accordion-selected">
             {{ selectedTheme$ | async }}
-          </mat-chip>
+          </label>
           <mat-icon *ngIf="!accordionItem2.expanded"> expand_more </mat-icon>
           <mat-icon *ngIf="accordionItem2.expanded"> expand_less </mat-icon>
         </div>
@@ -131,9 +131,9 @@
       <div class="accordion-item-header" (click)="accordionItem3.toggle()">
         <p>Borda</p>
         <div class="accordion-item-header-right">
-          <mat-chip highlighted>
+          <label class="accordion-selected">
             {{ selectedBorder$ | async }}
-          </mat-chip>
+          </label>
           <mat-icon *ngIf="!accordionItem3.expanded"> expand_more </mat-icon>
           <mat-icon *ngIf="accordionItem3.expanded"> expand_less </mat-icon>
         </div>
@@ -175,7 +175,17 @@
 
 <div *ngIf="loading" class="loading overlay">
   <div>
-    <h3>Coletando seus dados...</h3>
+    <h3>Consultando suas informações no Lastfm...</h3>
+    <mat-spinner [diameter]="48"></mat-spinner>
+  </div>
+</div>
+
+<div
+  *ngIf="!loading && !!story && !story?.previewImageURL"
+  class="loading overlay"
+>
+  <div>
+    <h3>Pintando o story...</h3>
     <mat-spinner [diameter]="48"></mat-spinner>
   </div>
 </div>
@@ -190,34 +200,27 @@
     [transparentBorder]="borderValue === 'transparent'"
     [lastfmImages]="images"
   ></mrq-lastfm-story>
-  <div class="preview-actions">
-    <button
-      mat-raised-button
-      class="preview-button"
-      color="primary"
-      (click)="closePreview()"
-    >
-      <mat-icon>arrow_back</mat-icon>
-      Voltar
-    </button>
-    <button
-      *ngIf="isSafari"
-      mat-icon-button
-      class="preview-button"
-      color="primary"
-      (click)="story.loadPreviewImage()"
-    >
-      <mat-icon>refresh</mat-icon>
-    </button>
-    <button
-      mat-raised-button
-      class="preview-button"
-      color="primary"
-      (click)="share()"
-    >
-      <mat-icon>share</mat-icon>
+</div>
 
-      Compartilhar
-    </button>
-  </div>
+<div *ngIf="previewOpen" class="preview-actions">
+  <button
+    mat-fab
+    class="preview-button"
+    color="primary"
+    (click)="closePreview()"
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <button
+    *ngIf="isSafari"
+    mat-fab
+    class="preview-button"
+    color="primary"
+    (click)="story.loadPreviewImage()"
+  >
+    <mat-icon>refresh</mat-icon>
+  </button>
+  <button mat-fab class="preview-button" color="primary" (click)="share()">
+    <mat-icon>share</mat-icon>
+  </button>
 </div>

@@ -1,0 +1,44 @@
+:host.story-card {
+  display: flex;
+  position: relative;
+
+  .image {
+    object-fit: cover;
+    -webkit-filter: drop-shadow(0px 3px 10px rgba(0, 0, 0, 0.8));
+    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.8));
+
+    &.transparent-border {
+      --b: 6px;
+      --d: 15px;
+      --_g: calc(100% - 2 * (var(--d) + var(--b)));
+
+      mask: conic-gradient(from 90deg at var(--d) var(--d), #0000 25%, #000 0) 0
+          0 / calc(100% - var(--d)) calc(100% - var(--d)),
+        linear-gradient(#000 0 0) 50% / var(--_g) var(--_g) no-repeat;
+    }
+  }
+
+  .text.title {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .index {
+    top: 0;
+    right: 0;
+    width: fit-content;
+  }
+
+  .text {
+    position: absolute;
+    padding: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: var(--text-background);
+    font-family: 'Bebas Neue', sans-serif;
+    text-transform: uppercase;
+    font-size: 36px;
+  }
+}

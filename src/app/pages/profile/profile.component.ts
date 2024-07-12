@@ -152,7 +152,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getRegisterStatus();
     this.user = this._userService.userObservable;
-    this._userService.profile();
+    this._userService.loadProfile();
   }
 
   register(): void {

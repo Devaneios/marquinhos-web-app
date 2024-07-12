@@ -31,34 +31,43 @@ export class UserService {
     return this._storage.get('authentication') as Authentication;
   }
 
-  async profile(): Promise<void> {
+  private get profile(): User | null {
+    return this._storage.get('profile') as User;
+  }
+
+  async loadProfile(): Promise<void> {
     if (!this.authentication) {
       return;
     }
-    try {
-      const user = await firstValueFrom(
-        this.httpClient
-          .get(`${environment.apiUrl}/user/profile`, {
-            headers: {
-              Authorization: `Bearer ${this.authentication.accessToken}`,
-            },
-          })
-          .pipe(
-            catchError((error) => {
-              if (
-                error.status === 404 ||
-                error.status === 401 ||
-                error.status === 409
-              ) {
-                return of(null);
-              }
-              throw error;
-            }),
-          ),
-        { defaultValue: null },
-      );
-      this.userSubject.next(user as unknown as User | null);
-    } catch (error) {}
+    if (!this.profile) {
+      try {
+        const user = await firstValueFrom(
+          this.httpClient
+            .get(`${environment.apiUrl}/user/profile`, {
+              headers: {
+                Authorization: `Bearer ${this.authentication.accessToken}`,
+              },
+            })
+            .pipe(
+              catchError((error) => {
+                if (
+                  error.status === 404 ||
+                  error.status === 401 ||
+                  error.status === 409
+                ) {
+                  return of(null);
+                }
+                throw error;
+              }),
+            ),
+          { defaultValue: null },
+        );
+        this._storage.set('profile', user);
+        this.userSubject.next(user as unknown as User | null);
+      } catch (error) {}
+    } else {
+      this.userSubject.next(this.profile);
+    }
   }
 
   async create(): Promise<void> {

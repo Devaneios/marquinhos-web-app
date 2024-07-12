@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.userObservable;
-    this.userService.profile();
+    this.userService.loadProfile();
   }
 
   logout(): void {

@@ -33,7 +33,7 @@ export class LoginDiscordComponent implements OnInit {
         await this._userService.create();
         await this.router.navigate(['/profile']);
       } catch (error) {
-        await this._userService.profile();
+        await this._userService.loadProfile();
         await this.router.navigate(['/profile']);
       }
     });

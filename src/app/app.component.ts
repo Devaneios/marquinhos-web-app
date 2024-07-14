@@ -19,71 +19,8 @@ import { User } from './types/user.interface';
     ProfileOptionsComponent,
   ],
   providers: [],
-  template: `
-    <header>
-      <div class="logo" (click)="goToHome()">
-        <img src="assets/logo.jpg" alt="logo" class="logo-image" />
-        <span class="logo-text">Marquinhos</span>
-      </div>
-      <app-profile-options
-        *ngIf="router.url !== '/login'"
-        (logout)="logout()"
-        (settings)="openSettings()"
-        (profile)="openProfile()"
-        (login)="goToLogin()"
-        [user]="user | async"
-      ></app-profile-options>
-    </header>
-    <router-outlet></router-outlet>
-  `,
-  styles: [
-    `
-      :host {
-        height: 100dvh;
-        width: 100dvw;
-        display: flex;
-        flex-direction: column;
-        background-color: #36393f;
-        color: white;
-        overflow-y: overlay;
-
-        header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          color: #7289da;
-          padding: 1rem;
-          background-color: #2f3136;
-          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-
-          .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-
-            &-image {
-              width: 3rem;
-              height: 3rem;
-              border-radius: 50%;
-            }
-            &-text {
-              font-weight: 600;
-              font-size: 1.2rem;
-            }
-          }
-        }
-      }
-
-      @media (max-width: 768px) {
-        :host {
-          header {
-            padding: 1rem 0.5rem;
-          }
-        }
-      }
-    `,
-  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   user?: Observable<User | null> = undefined;

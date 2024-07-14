@@ -1,0 +1,15 @@
+<header>
+  <div class="logo" (click)="goToHome()">
+    <img src="assets/logo.jpg" alt="logo" class="logo-image" />
+    <span class="logo-text">Marquinhos</span>
+  </div>
+  <app-profile-options
+    *ngIf="router.url !== '/login'"
+    (logout)="logout()"
+    (settings)="openSettings()"
+    (profile)="openProfile()"
+    (login)="goToLogin()"
+    [user]="user | async"
+  ></app-profile-options>
+</header>
+<router-outlet></router-outlet>

@@ -2,8 +2,8 @@ import { Injectable, NgZone, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { LocalStorageService } from '../misc/local-storage.service';
-import { Authentication } from 'src/app/types/user-auth.interface';
+import { LocalStorageService } from './local-storage.service';
+import { Authentication } from 'src/app/core/types/user-auth.interface';
 
 @Injectable({
   providedIn: 'root',

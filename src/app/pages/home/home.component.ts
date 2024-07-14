@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PrivacyPolicyDialogComponent } from 'src/app/components/privacy-policy-dialog/privacy-policy-dialog.component';
-import { MiscService } from 'src/app/core/misc/misc.service';
+import { MiscService } from 'src/app/core/services/misc.service';
 import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-story.component';
 
 @Component({

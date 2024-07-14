@@ -7,11 +7,11 @@ import {
   firstValueFrom,
   of,
 } from 'rxjs';
-import { UserStatus } from 'src/app/types/user-status.interface';
-import { User } from 'src/app/types/user.interface';
+import { UserStatus } from 'src/app/core/types/user-status.interface';
+import { User } from 'src/app/core/types/user.interface';
 import { environment } from 'src/environments/environment';
-import { LocalStorageService } from '../misc/local-storage.service';
-import { Authentication } from 'src/app/types/user-auth.interface';
+import { LocalStorageService } from './local-storage.service';
+import { Authentication } from 'src/app/core/types/user-auth.interface';
 
 @Injectable({
   providedIn: 'root',

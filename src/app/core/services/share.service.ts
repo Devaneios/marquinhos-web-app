@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ShareResult } from './share-result.type';
+import { ShareResult } from '../types/share-result.type';
 
 @Injectable({
   providedIn: 'root',

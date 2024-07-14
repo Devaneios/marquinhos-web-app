@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
-import { UserService } from 'src/app/core/user/user.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   standalone: true,

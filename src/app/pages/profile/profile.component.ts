@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { UserService } from 'src/app/core/user/user.service';
-import { User } from 'src/app/types/user.interface';
+import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/types/user.interface';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AuthService } from 'src/app/core/auth/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 

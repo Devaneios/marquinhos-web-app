@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { User } from 'src/app/types/user.interface';
+import { User } from 'src/app/core/types/user.interface';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';

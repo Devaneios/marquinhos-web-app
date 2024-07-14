@@ -1,7 +1,7 @@
 import { HttpEvent, HttpRequest, HttpHandlerFn } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
-import { Authentication } from 'src/app/types/user-auth.interface';
+import { Authentication } from 'src/app/core/types/user-auth.interface';
 
 export function headersInterceptor(
   req: HttpRequest<unknown>,

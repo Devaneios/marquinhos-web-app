@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PrivacyPolicy } from 'src/app/types/privacy-policy.interface';
+import { PrivacyPolicy } from 'src/app/core/types/privacy-policy.interface';
 
 @Injectable({
   providedIn: 'root',

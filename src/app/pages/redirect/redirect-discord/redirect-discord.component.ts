@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/auth/auth.service';
-import { UserService } from 'src/app/core/user/user.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   standalone: true,

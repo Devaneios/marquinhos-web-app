@@ -8,4 +8,5 @@ export interface UserAuth {
 export type Authentication = {
   accessToken: string;
   refreshToken: string;
+  expiresIn: number;
 };

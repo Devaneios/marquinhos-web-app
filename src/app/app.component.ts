@@ -3,10 +3,10 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileOptionsComponent } from './components/profile-options/profile-options.component';
-import { AuthService } from './core/auth/auth.service';
-import { UserService } from './core/user/user.service';
+import { AuthService } from './core/services/auth.service';
+import { UserService } from './core/services/user.service';
 import { Observable } from 'rxjs';
-import { User } from './types/user.interface';
+import { User } from './core/types/user.interface';
 
 @Component({
   selector: 'app-root',

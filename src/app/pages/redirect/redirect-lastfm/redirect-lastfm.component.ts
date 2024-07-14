@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/auth/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -9,8 +9,8 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { PrivacyPolicyDialogComponent } from 'src/app/components/privacy-policy-dialog/privacy-policy-dialog.component';
-import { UserService } from 'src/app/core/user/user.service';
-import { MiscService } from 'src/app/core/misc/misc.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { MiscService } from 'src/app/core/services/misc.service';
 
 @Component({
   standalone: true,

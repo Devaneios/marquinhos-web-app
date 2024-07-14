@@ -9,9 +9,9 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject } from 'rxjs';
 import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-story.component';
-import { UserService } from 'src/app/core/user/user.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { Platform } from '@angular/cdk/platform';
-import { ShareService } from 'src/app/core/misc/share.service';
+import { ShareService } from 'src/app/core/services/share.service';
 
 @Component({
   selector: 'app-story-gen',

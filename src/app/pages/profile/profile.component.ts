@@ -1,14 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/types/user.interface';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { LoginHelperService } from 'src/app/core/auth/login-helper.service';
 
 @Component({
   standalone: true,
@@ -143,20 +143,22 @@ export class ProfileComponent implements OnInit {
   scrobbleToggleDisabled = false;
   user?: Observable<User | null> = undefined;
 
-  private _userService = inject(UserService);
-  private _authService = inject(AuthService);
-  private _router = inject(Router);
+  private readonly _userService = inject(UserService);
+  private readonly _loginHelperService = inject(LoginHelperService);
+  private readonly _router = inject(Router);
+  private readonly _document = inject(DOCUMENT);
 
   constructor() {}
 
   ngOnInit(): void {
     this.getRegisterStatus();
     this.user = this._userService.userObservable;
-    this._userService.loadProfile();
   }
 
   register(): void {
-    this._authService.goToLastfmLoginURL();
+    this._loginHelperService.lastfmLoginURL().then((url) => {
+      this._document.defaultView?.open(url, '_self');
+    });
   }
 
   goToStoryGen(): void {

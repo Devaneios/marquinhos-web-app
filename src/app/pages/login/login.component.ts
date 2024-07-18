@@ -1,13 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { Router } from '@angular/router';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { LoginHelperService } from 'src/app/core/auth/login-helper.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   standalone: true,
   imports: [CommonModule],
   template: `
-    <button (click)="goToDiscordLogin()">
+    <button (click)="openDiscordLogin()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 48 48"
@@ -59,18 +60,25 @@ import { Router } from '@angular/router';
   ],
 })
 export class LoginComponent implements OnInit {
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  loginButtonDisabled = true;
+
+  private readonly _loginHelperService = inject(LoginHelperService);
+  private readonly _document = inject(DOCUMENT);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
 
   ngOnInit(): void {
-    this.authService.isLoggedIn().then((isLoggedIn) => {
-      if (isLoggedIn) {
-        this.router.navigate(['/profile']);
+    this._activatedRoute.data.subscribe(({ loggedIn }) => {
+      if (loggedIn) {
+        this._router.navigate(['/profile']);
+      } else {
+        this.loginButtonDisabled = false;
       }
     });
   }
 
-  async goToDiscordLogin() {
-    await this.authService.goToLoginURL();
+  async openDiscordLogin() {
+    const discordLoginURL = await this._loginHelperService.discordLoginURL();
+    this._document.defaultView?.open(discordLoginURL, '_self');
   }
 }

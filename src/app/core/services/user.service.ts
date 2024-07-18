@@ -11,7 +11,7 @@ import { UserStatus } from 'src/app/core/types/user-status.interface';
 import { User } from 'src/app/core/types/user.interface';
 import { environment } from 'src/environments/environment';
 import { LocalStorageService } from './local-storage.service';
-import { Authentication } from 'src/app/core/types/user-auth.interface';
+import { UserAuthentication } from 'src/app/core/types/user-auth.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -25,54 +25,47 @@ export class UserService {
 
   constructor() {
     this.userObservable = this.userSubject.asObservable();
+    this.loadProfile();
   }
 
-  private get authentication(): Authentication | null {
-    return this._storage.get('authentication') as Authentication;
+  private get authentication(): UserAuthentication | null {
+    return this._storage.get('authentication') as UserAuthentication;
   }
 
   private get profile(): User | null {
     return this._storage.get('profile') as User;
   }
 
-  async loadProfile(): Promise<void> {
+  async loadProfile(): Promise<User | null> {
     if (!this.authentication) {
-      return;
+      this._storage.remove('profile');
+      return null;
     }
     if (!this.profile) {
       try {
         const user = await firstValueFrom(
-          this.httpClient
-            .get(`${environment.apiUrl}/user/profile`, {
-              headers: {
-                Authorization: `Bearer ${this.authentication.accessToken}`,
-              },
-            })
-            .pipe(
-              catchError((error) => {
-                if (
-                  error.status === 404 ||
-                  error.status === 401 ||
-                  error.status === 409
-                ) {
-                  return of(null);
-                }
-                throw error;
-              }),
-            ),
+          this.httpClient.get(`${environment.apiUrl}/user/profile`, {
+            headers: {
+              Authorization: `Bearer ${this.authentication.accessToken}`,
+            },
+          }),
           { defaultValue: null },
         );
         this._storage.set('profile', user);
         this.userSubject.next(user as unknown as User | null);
-      } catch (error) {}
+        return user as unknown as User | null;
+      } catch (error) {
+        return null;
+      }
     } else {
       this.userSubject.next(this.profile);
+      return this.profile;
     }
   }
 
-  async create(): Promise<void> {
+  async create(): Promise<User | null> {
     if (!this.authentication) {
-      return;
+      return null;
     }
     try {
       const user = await firstValueFrom(
@@ -84,11 +77,9 @@ export class UserService {
         { defaultValue: null },
       );
       this.userSubject.next(user as unknown as User | null);
+      return user as unknown as User | null;
     } catch (error: any) {
-      if (error.status === 409) {
-        return;
-      }
-      throw error;
+      return null;
     }
   }
 

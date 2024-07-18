@@ -3,22 +3,13 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileOptionsComponent } from './components/profile-options/profile-options.component';
-import { AuthService } from './core/services/auth.service';
+import { AuthService } from './core/auth/auth.service';
 import { UserService } from './core/services/user.service';
 import { Observable } from 'rxjs';
 import { User } from './core/types/user.interface';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    NgIf,
-    AsyncPipe,
-    RouterOutlet,
-    HttpClientModule,
-    ProfileOptionsComponent,
-  ],
-  providers: [],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -30,7 +21,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.userObservable;
-    this.userService.loadProfile();
   }
 
   logout(): void {

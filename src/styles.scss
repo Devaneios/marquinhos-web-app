@@ -1,4 +1,40 @@
+@use '@angular/material' as mat;
 @import './reset-styles.scss';
+
+@include mat.core();
+
+$marquinhos-web-primary: mat.define-palette(mat.$purple-palette);
+$marquinhos-web-accent: mat.define-palette(
+  mat.$green-palette,
+  A200,
+  A100,
+  A400
+);
+
+// The warn palette is optional (defaults to red).
+$marquinhos-web-warn: mat.define-palette(mat.$red-palette);
+
+$my-typography: mat.define-typography-config(
+  $font-family: 'Nunito',
+);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$marquinhos-web-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $marquinhos-web-primary,
+      accent: $marquinhos-web-accent,
+      warn: $marquinhos-web-warn,
+    ),
+    typography: $my-typography,
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($marquinhos-web-theme);
 
 html,
 body {

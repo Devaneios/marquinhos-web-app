@@ -5,8 +5,8 @@ export interface UserAuth {
   scrobblesOn: boolean;
 }
 
-export type Authentication = {
+export type UserAuthentication = {
   accessToken: string;
   refreshToken: string;
-  expiresIn: number;
+  expiresAt: number;
 };

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -17,6 +17,7 @@ import { MiscService } from 'src/app/core/services/misc.service';
   imports: [CommonModule, MatDialogModule, PrivacyPolicyDialogComponent],
   template: ``,
   styles: [],
+  selector: 'app-login-lastfm',
 })
 export class LoginLastFmComponent implements OnInit {
   private dialog = inject(MatDialog);

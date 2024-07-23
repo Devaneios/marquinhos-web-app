@@ -32,7 +32,6 @@ export const loginResolver: ResolveFn<boolean> = async (
       (await authService.login(code)) && !!(await userService.loadProfile())
     );
   }
-  console.log(route.queryParams);
 
   if (route.queryParams['logout']) {
     dialog.open(ConfirmDialogComponent, {

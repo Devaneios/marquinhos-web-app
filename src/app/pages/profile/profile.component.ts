@@ -100,7 +100,6 @@ import { LoginHelperService } from 'src/app/core/auth/login-helper.service';
         display: flex;
         flex-direction: column;
         padding: 2rem 15rem;
-        color: #fff;
         gap: 2rem;
 
         table {

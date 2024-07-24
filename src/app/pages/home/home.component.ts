@@ -49,7 +49,6 @@ import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-sto
         align-items: center;
         justify-content: center;
         height: 100%;
-        color: #fff;
 
         header {
           text-align: center;
@@ -62,7 +61,6 @@ import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-sto
 
           p {
             font-size: 1.2rem;
-            color: #aaa;
           }
         }
 
@@ -92,7 +90,6 @@ import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-sto
           }
 
           .privacy-policy {
-            color: #fff;
             text-decoration: underline;
             cursor: pointer;
           }
@@ -100,7 +97,6 @@ import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-sto
 
         footer {
           font-size: 1.2rem;
-          color: #aaa;
           text-align: center;
           margin-top: 2rem;
 

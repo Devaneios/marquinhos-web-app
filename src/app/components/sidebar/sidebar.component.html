@@ -1,0 +1,20 @@
+<button #sidebarControl class="sidebar-control" (click)="toggleSidebar()">
+  <img src="assets/icons/sidebar-close.svg" alt="Sidebar open left" />
+</button>
+<div class="sidebar-logo">
+  <img src="assets/icons/marquinhos.svg" alt="Logo" />
+  <h3>Marquinhos</h3>
+</div>
+<div class="sidebar-menu">
+  <ul>
+    <li
+      *ngFor="let item of options"
+      [attr.tabIndex]="mobile && collapsed ? -1 : 0"
+      [class.selected]="item.id === selected"
+      (click)="onItemClick(item)"
+    >
+      <img src="assets/icons/{{ item.icon }}.svg" alt="Account icon" />
+      <span>{{ item.label }}</span>
+    </li>
+  </ul>
+</div>

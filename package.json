@@ -2,9 +2,9 @@
   "name": "marquinhos-web",
   "version": "0.0.0",
   "scripts": {
-    "ng": "generate-icons && ng",
+    "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "generate-icons && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate-icons": "svg-to-ts-constants"

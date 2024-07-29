@@ -1,0 +1,16 @@
+{
+  "srcFiles": [
+    "./src/assets/icons/*.svg"
+  ],
+  "outputDirectory": "./src/app/components/svg-icon",
+  "interfaceName": "maquinhosIcon",
+  "typeName": "marquinhosIcon",
+  "prefix": "marquinhosIcon",
+  "fileName": "marquinhos-icons",
+  "svgoConfig": {
+    "plugins": [
+      "cleanupAttrs"
+    ]
+  },
+  "compileSources": true
+}

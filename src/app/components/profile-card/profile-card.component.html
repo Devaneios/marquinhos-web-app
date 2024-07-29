@@ -1,0 +1,19 @@
+<app-base-card>
+  <div class="profile-avatar">
+    <img [attr.src]="avatarUrl" alt="Profile avatar" />
+    <h3>
+      {{ (user | async)?.global_name || (user | async)?.username || '' }}
+    </h3>
+    <h5>{{ (user | async)?.highestRole || '' }}</h5>
+  </div>
+  <ul class="profile-data">
+    <li>
+      <span>Username</span>
+      <p>{{ (user | async)?.username || '' }}</p>
+    </li>
+    <li>
+      <span>ID</span>
+      <p>{{ (user | async)?.id || '' }}</p>
+    </li>
+  </ul>
+</app-base-card>

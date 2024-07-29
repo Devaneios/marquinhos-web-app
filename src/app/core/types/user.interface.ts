@@ -13,4 +13,5 @@ export interface User {
   mfa_enabled: boolean;
   locale: string;
   premium_type: number;
+  highestRole: string;
 }

@@ -9,131 +9,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginHelperService } from 'src/app/core/auth/login-helper.service';
+import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
+import { BaseCardComponent } from '../../components/base-card/base-card.component';
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatIconModule,
-    MatSlideToggleModule,
-  ],
+  imports: [CommonModule, ProfileCardComponent, BaseCardComponent],
   providers: [],
-  template: `
-    <div class="section">
-      <h1 class="section-name">Perfil</h1>
-      <table>
-        <tr>
-          <td>Nome de usuário</td>
-          <td>{{ (user | async)?.username }}</td>
-        </tr>
-        <tr>
-          <td>ID</td>
-          <td>{{ (user | async)?.id }}</td>
-        </tr>
-      </table>
-    </div>
-    <div class="section">
-      <h1 class="section-name">Integração com Lastfm</h1>
-      <div class="lastfm-status">
-        <mat-chip
-          highlighted
-          [color]="
-            !registered
-              ? registerStatusMessage !== null
-                ? 'warn'
-                : 'error'
-              : 'primary'
-          "
-        >
-          <mat-icon
-            *ngIf="!registered && registerStatusMessage !== null"
-            matChipAvatar
-            >error</mat-icon
-          >
-          <mat-icon
-            *ngIf="registered && registerStatusMessage !== null"
-            matChipAvatar
-            >verified</mat-icon
-          >
-          <mat-icon
-            *ngIf="!registered && registerStatusMessage === null"
-            matChipAvatar
-            >hourglass_empty</mat-icon
-          >
-          <h2>{{ registerStatusMessage ?? 'Verificando o registro' }}</h2>
-        </mat-chip>
-        <button
-          *ngIf="!registered && registerStatusMessage !== null"
-          mat-raised-button
-          color="accent"
-          (click)="register()"
-        >
-          Conectar Last.fm
-        </button>
-        <button
-          *ngIf="registered"
-          mat-raised-button
-          color="primary"
-          (click)="goToStoryGen()"
-        >
-          Crie o seu Story!
-        </button>
-
-        <mat-slide-toggle
-          class="scrobble-toggle"
-          *ngIf="registered"
-          (change)="toggleScrobbles()"
-          [disabled]="scrobbleToggleDisabled"
-          [checked]="scrobblesOn"
-          >Scrobbles on!</mat-slide-toggle
-        >
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      :host {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        padding: 2rem 15rem;
-        gap: 2rem;
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          border: none;
-          font-size: 1.2rem;
-
-          td {
-            padding: 1rem 0;
-            border: none;
-          }
-
-          tr:not(:last-child) {
-            border-bottom: 1px solid #ffffff50;
-          }
-        }
-
-        .lastfm-status {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          width: fit-content;
-          gap: 1rem;
-        }
-      }
-
-      @media (max-width: 768px) {
-        :host {
-          padding: 4rem 0.5rem;
-        }
-      }
-    `,
-  ],
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   registerStatusMessage: string | null = null;

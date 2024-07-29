@@ -1,0 +1,9 @@
+<app-lastfm-status-card
+  [registered]="registered"
+  [registerStatusMessage]="registerStatusMessage"
+  [scrobblesOn]="scrobblesOn"
+  [scrobbleToggleDisabled]="scrobbleToggleDisabled"
+  (registerClick)="register()"
+  (storyClick)="goToStoryGen()"
+  (scrobbleChange)="toggleScrobbles()"
+></app-lastfm-status-card>

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "generate-icons && ng build",
+    "build": "npm run generate-icons && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate-icons": "svg-to-ts-constants"

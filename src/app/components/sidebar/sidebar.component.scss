@@ -1,10 +1,10 @@
-:host(.app-sidebar) {
+.app-sidebar {
   --animation-duration: 0.3s;
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   height: 100dvh;
-  color: var(--secondary-color);
+  color: var(--accent-color);
   background-color: var(--secondary-background-color);
   box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
   z-index: 10;
@@ -17,8 +17,11 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
-  transition: min-width var(--animation-duration) ease-in-out,
+  z-index: 10;
+  transition:
+    min-width var(--animation-duration) ease-in-out,
     max-width var(--animation-duration) ease-in-out,
+    left var(--animation-duration) ease-in-out,
     padding var(--animation-duration) ease-in-out;
 
   .sidebar-logo {
@@ -27,17 +30,11 @@
     justify-content: flex-start;
     gap: 8px;
     width: 100%;
-    height: 40px;
+    height: 44px;
     overflow: hidden;
     transition: width var(--animation-duration) ease-in-out;
     font-size: 20px;
     font-weight: 600;
-
-    img {
-      object-fit: contain;
-      width: 40px;
-      height: 40px;
-    }
   }
 
   .sidebar-menu {
@@ -64,12 +61,14 @@
         padding: 12px 20px;
         border-radius: 12px;
         transition-timing-function: ease-in-out;
-        transition: width var(--animation-duration),
+        transition:
+          width var(--animation-duration),
           padding var(--animation-duration);
 
         img {
           object-fit: none;
           object-position: center;
+          fill: white;
         }
 
         span {
@@ -81,11 +80,12 @@
 
         &:hover:not(.selected) {
           cursor: pointer;
-          background-color: rgba(228, 228, 252, 0.3);
+          background-color: var(--primary-color);
         }
 
         &.selected {
-          background-color: var(--primary-color);
+          color: var(--primary-color);
+          background-color: var(--secondary-color);
         }
       }
 
@@ -96,7 +96,6 @@
   }
 
   &.app-sidebar-collapsed {
-    align-items: flex-start;
     max-width: 80px;
     min-width: 80px;
     padding: 36px 16px;
@@ -130,7 +129,11 @@
     padding: 8px;
     top: 36px;
     right: 14px;
-    transition: transform var(--animation-duration) ease-in-out;
+    border-radius: 50%;
+    transition:
+      transform var(--animation-duration) ease-in-out,
+      top var(--animation-duration) ease-in-out,
+      right var(--animation-duration) ease-in-out;
 
     :hover {
       cursor: pointer;
@@ -144,15 +147,33 @@
 
   @media screen and (max-width: 768px) {
     position: fixed;
+    padding: 16px;
+    gap: 16px;
+
+    .sidebar-control {
+      top: 16px;
+    }
+
     &.app-sidebar-collapsed {
       left: -80px;
 
       .sidebar-control {
-        border-radius: 50%;
-        right: -56px;
         background-color: var(--secondary-background-color);
         box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
+        right: -56px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
   }
 }

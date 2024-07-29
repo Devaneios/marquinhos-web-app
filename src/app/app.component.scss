@@ -2,42 +2,75 @@
   height: 100dvh;
   width: 100dvw;
   display: flex;
-  flex-direction: column;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  overflow-y: overlay;
+  flex-direction: row;
+  background-color: var(--primary-background-color);
+  color: var(--accent-color);
+  overflow: hidden;
 
   header {
+    width: 100%;
+    height: 96px;
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: space-between;
-    color: #7289da;
-    padding: 1rem;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    align-items: center;
+    padding: 0 32px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
-    .logo {
+    h1 {
+      font-size: 2rem;
+      font-weight: 500;
+    }
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    .content {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
+      flex-direction: row;
+      justify-content: center;
+      padding: 32px;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+    }
+  }
 
-      &-image {
-        width: 3rem;
-        height: 3rem;
-        border-radius: 50%;
+  @media screen and (max-width: 768px) {
+    header {
+      height: 80px;
+      padding: 0 64px;
+
+      h1 {
+        font-size: 1.5rem;
       }
-      &-text {
-        font-weight: 600;
-        font-size: 1.2rem;
+    }
+
+    main {
+      .content {
+        padding: 16px;
       }
     }
   }
-}
 
-@media (max-width: 768px) {
-  :host {
-    header {
-      padding: 1rem 0.5rem;
+  header.login {
+    padding: 0 16px;
+  }
+
+  button.login-button {
+    position: absolute;
+    right: 64px;
+    top: 32px;
+    padding: 12px 24px;
+    border-radius: 16px;
+    font-size: 16px;
+
+    &:hover {
+      box-shadow: 0 0 0 1px var(--secondary-color);
     }
   }
 }

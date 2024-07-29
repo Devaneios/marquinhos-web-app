@@ -1,15 +1,23 @@
-<header>
-  <div class="logo" (click)="goToHome()">
-    <img src="assets/logo.jpg" alt="logo" class="logo-image" />
-    <span class="logo-text">Marquinhos</span>
+<app-sidebar
+  *ngIf="showSidebar"
+  [selected]="sidebarSelectedItem"
+  [options]="sidebarOptions"
+  (itemChange)="sidebarClick($event)"
+></app-sidebar>
+
+<main>
+  <header *ngIf="showHeader" [class.login]="isLoginPage">
+    <h1>{{ title }}</h1>
+  </header>
+  <div class="content">
+    <router-outlet></router-outlet>
   </div>
-  <app-profile-options
-    *ngIf="router.url !== '/login'"
-    (logout)="logout()"
-    (settings)="openSettings()"
-    (profile)="openProfile()"
-    (login)="goToLogin()"
-    [user]="user | async"
-  ></app-profile-options>
-</header>
-<router-outlet></router-outlet>
+</main>
+
+<button
+  *ngIf="!showHeader && !showSidebar"
+  class="login-button"
+  (click)="login()"
+>
+  Login
+</button>

@@ -39,6 +39,7 @@ $marquinhos-web-theme: mat.define-light-theme(
 html,
 body {
   height: 100%;
+  width: 100%;
 }
 body {
   margin: 0;
@@ -46,64 +47,35 @@ body {
 
   // Set the variables for the theme
   --primary-color: #d6d6fe;
-  --secondary-color: #1e1e3d;
-  --accent-color: #e4e4fc;
+  --secondary-color: #3b3b80;
+  --accent-color: #060633;
   --primary-background-color: #e3e3e6;
   --secondary-background-color: #fafaf9;
-  --text-color: #111139;
+  --shade-color: #7a7a81;
 
   background-color: var(--primary-background-color);
-  color: var(--text-color);
-}
+  color: var(--accent-color);
 
-.profile-menu-container {
-  margin-top: 1rem;
+  &.dark-theme {
+    --primary-color: #1f1f2e;
+    --secondary-color: #aeaed9;
+    --accent-color: #a9a9f5;
+    --primary-background-color: #1f1f2e;
+    --secondary-background-color: #171723;
+    --shade-color: #6e6e72;
+  }
 }
 
 * {
   box-sizing: border-box;
 }
 
-[scrollState] {
-  overflow: scroll;
-  transition: box-shadow 125ms ease-in-out;
+svg-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  $topShadow: inset 0px 6px 6px -5px #88888881;
-  $topShadowTransparent: inset 0px 6px 6px -5px transparent;
-  $bottomShadow: inset 0px -6px 6px -5px #88888881;
-  $bottomShadowTransparent: inset 0px -6px 6px -5px transparent;
-
-  &.can-scroll-up {
-    box-shadow: $topShadow, $bottomShadowTransparent;
-  }
-
-  &.can-scroll-down {
-    box-shadow: $topShadowTransparent, $bottomShadow;
-  }
-
-  &.can-scroll-up.can-scroll-down {
-    box-shadow: $topShadow, $bottomShadow;
-  }
-}
-
-.section {
-  background-color: var(--secondary-background-color);
-  padding: 3rem;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-}
-
-.section-name {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .section {
-    padding: 1rem;
-  }
-
-  .section-name {
-    font-size: 1.5rem;
+  > svg {
+    fill: currentColor;
   }
 }

@@ -1,4 +1,4 @@
-import { DOCUMENT, NgFor } from '@angular/common';
+import { DOCUMENT, NgFor, NgIf } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -8,30 +8,26 @@ import {
   Input,
 } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { SidebarItem } from '../../core/types/sidebar-item.type';
+import { SvgIconDirective } from '../svg-icon/svg-icon.directive';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [NgFor],
+  imports: [NgFor, NgIf, SvgIconDirective],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
   standalone: true,
   host: {
     class: 'app-sidebar',
-    '[class.app-sidebar-collapsed]': 'collapsed',
   },
 })
 export class SidebarComponent implements OnInit {
   @Output() collapseChange = new EventEmitter<boolean>();
-  @Output() itemChange = new EventEmitter<string>();
+  @Output() itemChange = new EventEmitter<SidebarItem>();
 
   @Input() collapsed = true;
   @Input() selected = '';
-  @Input() options = [
-    { id: 'profile', icon: 'account', label: 'Perfil' },
-    { id: 'lastfm', icon: 'music-note', label: 'Lastfm' },
-    { id: 'settings', icon: 'settings', label: 'Ajustes' },
-    { id: 'logout', icon: 'logout', label: 'Sair' },
-  ];
+  @Input() options: SidebarItem[] = [];
   @Input() mobile = false;
 
   private readonly _breakpointObserver = inject(BreakpointObserver);
@@ -54,7 +50,20 @@ export class SidebarComponent implements OnInit {
   }
 
   onItemClick(item: any) {
-    this.selected = item.id;
-    this.itemChange.emit(item.id);
+    this.collapsed = true;
+    this.itemChange.emit(item);
+    this.collapseChange.emit(this.collapsed);
+  }
+
+  onHomeClick() {
+    this.itemChange.emit({ id: 'home', icon: 'home', label: 'Início' });
+    this.collapsed = true;
+    this.collapseChange.emit(this.collapsed);
+  }
+
+  onBackdropClick() {
+    if (this.mobile) {
+      this.toggleSidebar();
+    }
   }
 }

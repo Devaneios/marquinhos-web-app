@@ -12,6 +12,7 @@ import { LastfmStoryComponent } from 'src/app/components/lastfm-story/lastfm-sto
 import { UserService } from 'src/app/core/services/user.service';
 import { Platform } from '@angular/cdk/platform';
 import { ShareService } from 'src/app/core/services/share.service';
+import { BaseCardComponent } from '../../components/base-card/base-card.component';
 
 @Component({
   selector: 'app-story-gen',
@@ -27,6 +28,7 @@ import { ShareService } from 'src/app/core/services/share.service';
     MatIconModule,
     MatProgressSpinnerModule,
     LastfmStoryComponent,
+    BaseCardComponent,
   ],
 })
 export class StoryGenComponent implements OnInit {

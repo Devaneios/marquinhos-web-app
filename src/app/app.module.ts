@@ -16,6 +16,8 @@ import { ProfileOptionsComponent } from './components/profile-options/profile-op
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './core/services/user.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SvgIconDirective } from './components/svg-icon/svg-icon.directive';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,6 +31,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     ProfileOptionsComponent,
     BrowserAnimationsModule,
     MatDialogModule,
+    SidebarComponent,
+    SvgIconDirective,
   ],
   providers: [
     provideHttpClient(withInterceptors([headersInterceptor])),

@@ -8,41 +8,55 @@ import { LoginLastFmComponent } from './pages/redirect-lastfm/redirect-lastfm.co
 import { SettingsComponent } from './pages/settings/settings.component';
 import { StoryGenComponent } from './pages/story-gen/story-gen.component';
 import { loginResolver } from './core/auth/login.resolve';
+import { LastfmComponent } from './pages/lastfm/lastfm.component';
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    title: 'Marquinhos - Início',
   },
   {
     path: 'login',
     component: LoginComponent,
     resolve: { loggedIn: loginResolver },
+    title: 'Marquinhos - Login',
   },
   {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [authGuard],
+    title: 'Marquinhos - Perfil',
   },
   {
     path: 'story-gen',
     component: StoryGenComponent,
     canActivate: [authGuard],
+    title: 'Marquinhos - Last.fm Story Generator',
   },
   {
     path: 'redirect-lastfm',
     component: LoginLastFmComponent,
     canActivate: [authGuard],
+    title: 'Marquinhos - Redirecionando do Last.fm',
   },
   {
     path: 'settings',
     component: SettingsComponent,
     canActivate: [authGuard],
+    title: 'Marquinhos - Ajustes',
+  },
+  {
+    path: 'lastfm',
+    component: LastfmComponent,
+    canActivate: [authGuard],
+    title: 'Marquinhos - Last.fm',
   },
   {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
+    title: 'Marquinhos - Início',
   },
   {
     path: '**',

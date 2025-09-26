@@ -1,0 +1,166 @@
+<div class="gamification-container">
+  <mat-tab-group>
+    <!-- User Level Tab -->
+    <mat-tab label="Meu Nível">
+      <div class="tab-content">
+        <div *ngIf="userLevel$ | async as userLevel; else noLevel">
+          <mat-card class="level-card">
+            <mat-card-header>
+              <mat-card-title>Nível {{ userLevel.level }}</mat-card-title>
+              <mat-card-subtitle>{{ userLevel.totalXp }} XP Total</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="progress-section">
+                <div class="xp-info">
+                  <span>{{ userLevel.xp }} / {{ getRequiredXP(userLevel.level) }} XP</span>
+                  <span>{{ getProgressPercentage(userLevel) }}%</span>
+                </div>
+                <mat-progress-bar mode="determinate" [value]="getProgressPercentage(userLevel)">
+                </mat-progress-bar>
+              </div>
+              <div class="level-stats">
+                <div class="stat">
+                  <mat-icon>trending_up</mat-icon>
+                  <div class="stat-info">
+                    <span class="stat-value">{{ userLevel.level }}</span>
+                    <span class="stat-label">Nível Atual</span>
+                  </div>
+                </div>
+                <div class="stat">
+                  <mat-icon>star</mat-icon>
+                  <div class="stat-info">
+                    <span class="stat-value">{{ userLevel.xp }}</span>
+                    <span class="stat-label">XP Atual</span>
+                  </div>
+                </div>
+                <div class="stat">
+                  <mat-icon>emoji_events</mat-icon>
+                  <div class="stat-info">
+                    <span class="stat-value">{{ userLevel.totalXp }}</span>
+                    <span class="stat-label">XP Total</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <ng-template #noLevel>
+          <mat-card>
+            <mat-card-content>
+              <p>Você ainda não possui um nível registrado. Use alguns comandos para começar!</p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </div>
+    </mat-tab>
+
+    <!-- Achievements Tab -->
+    <mat-tab label="Conquistas">
+      <div class="tab-content">
+        <div *ngIf="userAchievements$ | async as achievements; else noAchievements">
+          <div *ngFor="let rarity of ['legendary', 'epic', 'rare', 'common']" class="rarity-section">
+            <div>
+              <h3 [style.color]="getRarityColor(rarity)">{{ getRarityLabel(rarity) }}</h3>
+              <div class="achievements-grid">
+                <mat-card *ngFor="let userAchievement of getAchievementsByRarity(achievements)[rarity]"
+                  class="achievement-card">
+                  <mat-card-header>
+                    <div class="achievement-icon">{{ userAchievement.achievementId.icon }}</div>
+                    <mat-card-title>{{ userAchievement.achievementId.name }}</mat-card-title>
+                    <mat-card-subtitle>{{ userAchievement.achievementId.description }}</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <mat-chip [style.background-color]="getRarityColor(userAchievement.achievementId.rarity)">
+                      {{ getRarityLabel(userAchievement.achievementId.rarity) }}
+                    </mat-chip>
+                    <div class="unlock-date">
+                      Desbloqueado em {{ userAchievement.unlockedAt | date:'short' }}
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noAchievements>
+          <mat-card>
+            <mat-card-content>
+              <p>Você ainda não possui conquistas desbloqueadas. Continue usando o bot para desbloqueá-las!</p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </div>
+    </mat-tab>
+
+    <!-- Leaderboard Tab -->
+    <mat-tab label="Ranking">
+      <div class="tab-content">
+        <div *ngIf="leaderboard$ | async as leaderboard; else noLeaderboard">
+          <mat-card class="leaderboard-card">
+            <mat-card-header>
+              <mat-card-title>🏆 Top Usuários</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="leaderboard-list">
+                <div *ngFor="let entry of leaderboard; let i = index" class="leaderboard-entry">
+                  <div class="position">
+                    <span *ngIf="i === 0">🥇</span>
+                    <span *ngIf="i === 1">🥈</span>
+                    <span *ngIf="i === 2">🥉</span>
+                    <span *ngIf="i > 2">{{ i + 1 }}</span>
+                  </div>
+                  <div class="user-info">
+                    <div class="username">{{ entry.username || 'Usuario ' + entry.userId }}</div>
+                    <div class="level-info">Nível {{ entry.level }} - {{ entry.totalXp }} XP</div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <ng-template #noLeaderboard>
+          <mat-card>
+            <mat-card-content>
+              <p>Nenhum ranking disponível no momento.</p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </div>
+    </mat-tab>
+
+    <!-- All Achievements Tab -->
+    <mat-tab label="Todas as Conquistas">
+      <div class="tab-content">
+        <div *ngIf="allAchievements$ | async as allAchievements; else noAllAchievements">
+          <div *ngFor="let rarity of ['legendary', 'epic', 'rare', 'common']" class="rarity-section">
+            <div *ngIf="allAchievements.length > 0">
+              <h3 [style.color]="getRarityColor(rarity)">{{ getRarityLabel(rarity) }}</h3>
+              <div class="achievements-grid">
+                <mat-card *ngFor="let achievement of allAchievements" class="achievement-card">
+                  <mat-card-header>
+                    <div class="achievement-icon">{{ achievement.icon }}</div>
+                    <mat-card-title>{{ achievement.name }}</mat-card-title>
+                    <mat-card-subtitle>{{ achievement.description }}</mat-card-subtitle>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <mat-chip [style.background-color]="getRarityColor(achievement.rarity)">
+                      {{ getRarityLabel(achievement.rarity) }}
+                    </mat-chip>
+                    <div class="category">Categoria: {{ achievement.category }}</div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noAllAchievements>
+          <mat-card>
+            <mat-card-content>
+              <p>Nenhuma conquista disponível.</p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,148 @@
+.gamification-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+.level-card {
+  margin-bottom: 20px;
+}
+
+.progress-section {
+  margin: 16px 0;
+}
+
+.xp-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.level-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1976d2;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.rarity-section {
+  margin-bottom: 32px;
+}
+
+.rarity-section h3 {
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.achievement-card {
+  transition: transform 0.2s ease;
+}
+
+.achievement-card:hover {
+  transform: translateY(-2px);
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  margin-right: 12px;
+}
+
+.unlock-date, .category {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.leaderboard-card {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.position {
+  width: 40px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.user-info {
+  flex: 1;
+  margin-left: 16px;
+}
+
+.username {
+  font-weight: 500;
+  color: #1976d2;
+}
+
+.level-info {
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .gamification-container {
+    padding: 10px;
+  }
+  
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .level-stats {
+    grid-template-columns: 1fr;
+  }
+}

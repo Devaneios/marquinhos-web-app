@@ -4,7 +4,7 @@ export interface UserLevel {
   level: number;
   xp: number;
   totalXp: number;
-  lastXpGain: Date;
+  lastXpGain: Date | null;
 }
 
 export interface Achievement {
@@ -24,9 +24,15 @@ export interface Achievement {
 
 export interface UserAchievement {
   userId: string;
-  achievementId: Achievement;
-  unlockedAt: Date;
   guildId: string;
+  achievementId: string;
+  unlockedAt: Date;
+  name: string;
+  description: string;
+  category: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  icon: string;
+  rewardXp: number;
 }
 
 export interface LeaderboardEntry {

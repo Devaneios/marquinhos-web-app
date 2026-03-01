@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   sidebarOptions = [
     { id: 'profile', icon: 'account', label: 'Perfil' },
     { id: 'lastfm', icon: 'music_note', label: 'Lastfm' },
+    { id: 'gamification', icon: 'emoji_events', label: 'Gamificação' },
     { id: 'settings', icon: 'settings', label: 'Ajustes' },
     {
       id: 'theme',

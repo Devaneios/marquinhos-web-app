@@ -5,9 +5,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Observable, of } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { GamificationService } from '../../core/services/gamification.service';
+import { UserService } from '../../core/services/user.service';
 import { Achievement, LeaderboardEntry, UserAchievement, UserLevel } from '../../core/types/gamification.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-gamification',
@@ -25,46 +28,44 @@ import { Achievement, LeaderboardEntry, UserAchievement, UserLevel } from '../..
 })
 export class GamificationComponent implements OnInit {
   private _gamificationService = inject(GamificationService);
+  private _userService = inject(UserService);
+  private readonly _guildId = environment.guildId;
 
   userLevel$: Observable<UserLevel | null> = of(null);
   userAchievements$: Observable<UserAchievement[]> = of([]);
   leaderboard$: Observable<LeaderboardEntry[]> = of([]);
   allAchievements$: Observable<Achievement[]> = of([]);
 
-  // Mock data for now - would normally come from user service
-  currentUserId = '123456789';
-  currentGuildId = '987654321';
-
   ngOnInit(): void {
-    this.loadGamificationData();
+    this._userService.userObservable.pipe(
+      filter(user => !!user)
+    ).subscribe(user => {
+      this.loadGamificationData(user!.id);
+    });
   }
 
-  private loadGamificationData(): void {
-    // Load user level
+  private loadGamificationData(userId: string): void {
     this.userLevel$ = new Observable(observer => {
-      this._gamificationService.getUserLevel(this.currentUserId, this.currentGuildId).subscribe({
+      this._gamificationService.getUserLevel(userId, this._guildId).subscribe({
         next: response => observer.next(response.data),
         error: () => observer.next(null)
       });
     });
 
-    // Load user achievements
     this.userAchievements$ = new Observable(observer => {
-      this._gamificationService.getUserAchievements(this.currentUserId, this.currentGuildId).subscribe({
+      this._gamificationService.getUserAchievements(userId, this._guildId).subscribe({
         next: response => observer.next(response.data || []),
         error: () => observer.next([])
       });
     });
 
-    // Load leaderboard
     this.leaderboard$ = new Observable(observer => {
-      this._gamificationService.getLeaderboard(this.currentGuildId, 10).subscribe({
+      this._gamificationService.getLeaderboard(this._guildId, 10).subscribe({
         next: response => observer.next(response.data || []),
         error: () => observer.next([])
       });
     });
 
-    // Load all achievements
     this.allAchievements$ = new Observable(observer => {
       this._gamificationService.getAllAchievements().subscribe({
         next: response => observer.next(response.data || []),
@@ -102,10 +103,14 @@ export class GamificationComponent implements OnInit {
 
   getAchievementsByRarity(achievements: UserAchievement[]): {[key: string]: UserAchievement[]} {
     return achievements.reduce((acc, achievement) => {
-      const rarity = achievement.achievementId.rarity;
+      const rarity = achievement.rarity;
       if (!acc[rarity]) acc[rarity] = [];
       acc[rarity].push(achievement);
       return acc;
     }, {} as {[key: string]: UserAchievement[]});
+  }
+
+  getAchievementsForRarity(achievements: Achievement[], rarity: string): Achievement[] {
+    return achievements.filter(a => a.rarity === rarity);
   }
 }
